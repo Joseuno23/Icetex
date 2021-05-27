@@ -8,7 +8,7 @@
 <?php
 foreach ($listButton as $modulo => $sub) :?>
             
-        <div class="card">
+        <div class="card card-collapsed">
             <div class="card-status card-status-left bg-primary br-bl-3 br-tl-3"></div>
             <div class="card-header">
                 <h3 class="card-title"><?=$modulo?></h3>
