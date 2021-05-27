@@ -104,7 +104,7 @@
                                 <select name="id_dependencia" class="form-control required" id="id_dependencia">
                                     <option value="">. . .</option>
                                     <?php foreach ($areas as $r) : ?>
-                                        <option value="<?= $r->id_dependencia ?>"><?= $r->descripcion ?></option>
+                                        <option value="<?= $r->id_dependencia ?>"><?= $r->description ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

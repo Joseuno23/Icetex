@@ -73,7 +73,7 @@ class M_User extends VS_Model {
     function ListAreasAll(){
         $result = $this->db->select('*')
                 ->from('sys_dependencia')
-                ->order_by('descripcion')
+                ->order_by('description')
                 ->get();
                 
         return $result->result();

@@ -73,7 +73,7 @@
                                                     <label for="">Dependencia</label>
                                                     <select class="form-control" id="id_dependencia"  onchange="update('id_dependencia', this.value)">
                                                         <?php foreach ($areas as $r) : ?>
-                                                            <option value="<?= $r->id_dependencia ?>" <?= ($r->id_dependencia == $user->id_dependencia) ? 'selected' : '' ?>><?= $r->descripcion ?></option>
+                                                            <option value="<?= $r->id_dependencia ?>" <?= ($r->id_dependencia == $user->id_dependencia) ? 'selected' : '' ?>><?= $r->description ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
