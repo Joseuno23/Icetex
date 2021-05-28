@@ -61,6 +61,8 @@ $route['Logout'] = 'C_Main/Logout';
 //usuarios
 $route['User'] = 'Parameters/User/C_User'; 
 $route['User/Edit/(:num)'] = 'Parameters/User/C_User/InfoUser/$1';
+$route['Permissions'] = 'Parameters/Security/C_Security/Permissions';
+$route['Buttons'] = 'Parameters/Security/C_Security/Buttons';
 
 //maestro
 $route['Roles'] = 'Parameters/Roles/C_Roles'; 
@@ -69,5 +71,7 @@ $route['TipoDocumento'] = 'Parameters/Tipo_Documento/C_Tipo_Documento';
 $route['Canal'] = 'Parameters/Canal/C_Canal'; 
 $route['Dependencias'] = 'Parameters/Dependencia/C_Dependencia'; 
 
-$route['Permissions'] = 'Parameters/Security/C_Security/Permissions';
-$route['Buttons'] = 'Parameters/Security/C_Security/Buttons';
+$route['Radicados'] = 'Radicado/C_Radicado/GetList';
+$route['Radicados/Edit/(:num)'] = 'Radicado/C_Radicado/Edit/$1';
+$route['Radicados/New'] = 'Radicado/C_Radicado/NewP';
+

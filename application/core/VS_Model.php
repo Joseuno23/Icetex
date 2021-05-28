@@ -115,4 +115,13 @@ class VS_Model extends CI_Model {
         }
         return $res;
     }
+    
+    function select($table, $order) {
+        $res = $this->db->select('*')
+                ->from($table)
+                ->order_by($order)
+                ->get();
+
+        return $res->result();
+    }
 } 

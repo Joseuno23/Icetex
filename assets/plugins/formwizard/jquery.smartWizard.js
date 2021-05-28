@@ -24,8 +24,8 @@
         useURLhash: true, // Enable selection of the step based on url hash
         showStepURLhash: true, // Show url hash based on step
         lang: { // Language variables for button
-            next: 'Next',
-            previous: 'Previous'
+            next: 'Siguiente',
+            previous: 'Regresar'
         },
         toolbarSettings: {
             toolbarPosition: 'bottom', // none, top, bottom, both
@@ -259,6 +259,17 @@
             // Next button event
             $('.sw-btn-next', this.main).on("click", function (e) {
                 e.preventDefault();
+				
+				if(validatefield('req-'+mi.current_index)){
+					if(mi.current_index == 1){
+						saveRadicado();
+					}
+					mi._showNext();
+					return false;
+				}else{
+					return false;
+				}
+				
                 mi._showNext();
             });
 

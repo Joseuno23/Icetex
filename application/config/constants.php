@@ -132,3 +132,8 @@ defined('ICHECK_CSS_RED')    OR define('ICHECK_CSS_RED', 'plugins/iCheck/minimal
 defined('ICHECK_CSS_FLAT')    OR define('ICHECK_CSS_FLAT', 'plugins/iCheck/flat/_all.css');
 defined('ICHECK_CSS_BLUE')    OR define('ICHECK_CSS_BLUE', 'plugins/iCheck/minimal/blue.css');
 defined('ICHECK_JS')      OR define('ICHECK_JS','plugins/iCheck/icheck.min.js');
+
+//Form-wizard
+defined('WIZARD_JS')    OR define('WIZARD_JS', 'plugins/formwizard/jquery.smartWizard.js');
+defined('WIZARD_CSS')    OR define('WIZARD_CSS', 'plugins/formwizard/smart_wizard.css');
+defined('WIZARD_CSS_B')    OR define('WIZARD_CSS_B', 'plugins/formwizard/smart_wizard_theme_dots.css');
