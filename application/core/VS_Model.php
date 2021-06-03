@@ -116,6 +116,23 @@ class VS_Model extends CI_Model {
         return $res;
     }
     
+    function selecTable($tabla, $whereField = false, $whereId = false, $row = false){
+        
+        if($whereField)
+            $this->db->where($whereField,$whereId);
+        
+        $result = $this->db->select('*')
+                ->from($tabla)
+                ->get();
+        
+        if($row){
+            return $result->row();
+        }else{
+            return $result->result();
+        }
+        
+    }
+    
     function select($table, $order) {
         $res = $this->db->select('*')
                 ->from($table)

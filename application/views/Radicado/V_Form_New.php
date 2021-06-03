@@ -22,34 +22,22 @@
                         <div>
                             <h3 class="card-title title-rad">Radicado</h3>
                         </div>
-                        <div class="card-options">
-                            <a href="" class="mr-4 text-default" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                                <span class="fe fe-more-horizontal fs-20"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li><a href="#"><i class="fe fe-eye mr-2"></i>View</a></li>
-                                <li><a href="#"><i class="fe fe-plus-circle mr-2"></i>Add</a></li>
-                                <li><a href="#"><i class="fe fe-trash-2 mr-2"></i>Remove</a></li>
-                                <li><a href="#"><i class="fe fe-download-cloud mr-2"></i>Download</a></li>
-                                <li><a href="#"><i class="fe fe-settings mr-2"></i>More</a></li>
-                            </ul>
-                        </div>
                     </div>
                     <div class="card-body">
                         <div id="smartwizard-3">
                             <ul>
-                                <li><a href="#step-1">Solicitante</a></li>
-                                <li><a href="#step-2">General</a></li>
-                                <li><a href="#step-3">Archivos</a></li>
+                                <li><a href="#step-1">Información Del Solicitante</a></li>
+                                <li><a href="#step-2">Información General</a></li>
+                                <li><a href="#step-3">Adjuntar Documentos</a></li>
                             </ul>
                             <div>
-                                <div id="step-1" class="">
+                                <div id="step-1" class="done">
                                     <?=$info_s?>
                                 </div>
-                                <div id="step-2" class="">
+                                <div id="step-2" class="done">
                                     <?=$info_g?>
                                 </div>
-                                <div id="step-3" class="">
+                                <div id="step-3" class="done">
                                     <?=$form_file?>
                                 </div>
                             </div>
@@ -65,13 +53,28 @@
 <!--Footer-->
 
 <script>
+    
+    var id, token;
+    
     $(function () {
-        var btnFinish = $('<button></button>').text('Finalizar')
-		.addClass('btn btn-success')
-		.on('click', function(){ alert('Finish Clicked'); });
+        
+        
+        
+        var btnFinish = $('<button disabled></button>').text('Finalizar').addClass('btn btn-success btn-finish').on('click', function(){ 
+            if($('.start').length > 0){
+                swal('Warning','Hay archivos pendientes por subir','warning');
+            }else{
+                swal('','Se genero el radicado n°'+$('#id_radicado').val(),'success').then((result) => {
+                    window.location.replace("<?= base_url() ?>Radicados/Preview/"+id+"/"+token);
+                });
+            }
+        });
 	var btnCancel = $('<button></button>').text('Cancelar')
-		.addClass('btn btn-danger')
-		.on('click', function(){ $('#smartwizard-3').smartWizard("reset"); });
+		.addClass('btn btn-danger btn-cancel')
+		.on('click', function(){ 
+                    $('.req-0, .req-1').val(""); 
+                    $('#smartwizard-3').smartWizard("reset"); 
+                });
         
         $('#smartwizard-3').smartWizard({
             selected: 0,
@@ -89,7 +92,7 @@
             var sub = $('#upload_documento').fileupload({
                 url: '<?= base_url() ?>Radicado/C_Radicado/UploadFile',
                 maxFileSize: 5000000000,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf|psd|tif|ai)$/i,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf|xls|xlsx|csv|pptx|docx|doc|zip|rar|7z)$/i,
                 multipart: true
             });
 
@@ -121,8 +124,15 @@
         }
     
         $.post('<?=base_url()?>Radicado/C_Radicado/SaveRadicado',datos,function(response){
-            $('#id_radicado').val(response.res);
-            $('.title-rad').html('RADICADO N° '+response.res)
+            if(response.res > 0){
+                $('#id_radicado').val(response.res);
+                id = response.idEncrip;
+                token = response.idToken;
+                $('.btn-cancel').attr('disabled',true);
+                $('.title-rad').html('RADICADO N° '+response.res);
+            }else{
+                swal('Error','Ha ocurrido un error','error');
+            }
         },'json');
     }
 

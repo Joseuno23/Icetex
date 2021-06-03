@@ -13,7 +13,7 @@
     <tbody>
         <?php foreach ($user as $v) : ?>
             <tr id="user<?= $v->id_users ?>">
-                <td><img style="width:30px" src="<?= base_url() ?>assets/images/users/<?= $v->avatar ?>" class="img-circle" alt="User Image"></td>
+                <td><img style="width:30px" src="<?= base_url() ?>assets/images/users/<?= $v->avatar ?>" class="avatar avatar-md rounded-circle" alt="User Image"></td>
                 <td id="name<?= $v->id_users ?>"><?= $v->name ?></td>
                 <td style="text-align: center;"><?= $v->user ?></td>           
                 <td style="text-align: center;"><?= $v->rol ?></td>

@@ -33,3 +33,13 @@
         </div>
     </div>
 </div>
+<?php if(isset($info)): ?>
+<script>
+    $(function(){
+        $('#nombre_solicitante').val('<?=$info->nombre_solicitante?>');
+        $('#documento_solicitante').val('<?=$info->documento_solicitante?>');
+        $('#telefono_solicitante').val('<?=$info->telefono_solicitante?>');
+        $('#direccion_solicitante').val('<?=$info->direccion_solicitante?>');
+    })
+</script> 
+<?php endif; ?>

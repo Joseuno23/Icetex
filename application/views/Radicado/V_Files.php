@@ -8,7 +8,7 @@
         <form class="fileupload"  id="upload_documento" method="POST" enctype="multipart/form-data">
             <!-- Redirect browsers with JavaScript disabled to the origin page -->
             <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
-            <input type="hidden" name="id_radicado" id="id_radicado">
+            <input type="hidden" name="id_radicado" id="id_radicado" <?php if(isset($id_radicado)): ?> value="<?=  $id_radicado ?>" <?php endif; ?>>
             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
             <div class="row fileupload-buttonbar">
                 <div class="col-md-4">
@@ -34,6 +34,43 @@
                     <div class="progress-extended">&nbsp;</div>
                 </div>
             </div><table role="presentation" id="table-adjuntos" class="table table-striped"><tbody class="files"></tbody></table>
+
+            <div class="row">
+                <?php foreach ($adjuntos as $v) : ?>
+                    <div class="col-md-3 adj-<?= $v->id ?>">
+                        <div class="card overflow-hidden">
+                            <?php 
+                            if (strpos($v->archivo, '.pdf') === false) :
+                                if (strpos($v->archivo, '.xls') === false && strpos($v->archivo, '.xlsx') === false) :
+                                    if (strpos($v->archivo, '.doc') === false && strpos($v->archivo, '.docx') === false) :
+                                        if (strpos($v->archivo, '.pptx') === false) :
+                                            echo '<img style="width:100px; margin:0 auto;" src="'.base_url().'Adjuntos/'.$v->path.'path/'.$v->archivo.'" alt="image">';
+                                        else:
+                                            echo '<img style="width:100px; margin:0 auto;" src="../../../assets/images/icons/pptx.png" alt="image">';
+                                        endif;
+                                    else:
+                                        echo '<img style="width:100px; margin:0 auto;" src="../../../assets/images/icons/word.png" alt="image">';
+                                    endif;
+                                else:
+                                    echo '<img style="width:100px; margin:0 auto;" src="../../../assets/images/icons/excel.png" alt="image">';
+                                endif;
+                            else:
+                                echo '<img style="width:100px; margin:0 auto;" src="../../../assets/images/icons/pdf.png" alt="image">';
+                            endif;
+                            ?>
+                            
+                            <div class="card-body">
+                                <h5 class="card-title mb-0 mt-3"><?= $v->name ?></h5>
+                                <p class="card-text text-muted"><?= $v->archivo ?>.</p>
+                                
+                                <a href="<?= base_url() ?>Adjuntos/<?= $v->path ?>/path/<?= $v->archivo ?>" download="<?= $v->archivo ?>" class="btn btn-primary btn-xs pull-right" style="margin-left: 2px"><i class="fa fa-cloud-download"></i></a>
+                                <a onclick="deleteAdjunto(<?= $v->id ?>,'<?=$v->path?>','<?=$v->archivo?>')" class="btn btn-warning btn-xs "><i class="fa fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
         </form>
     </div>
 </div>
@@ -88,8 +125,9 @@
     {% if (file.thumbnailUrl) { %}
     <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
     {% }else{ %}
-    {% if (file.type == 'ai') { %}
-    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img style="max-width:60px;" src="<?= base_url() ?>{%='assets/plugins/img/icon-ai.png'%}"></a>
+    
+    {% if (file.type == 'application/pdf') { %}
+    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img style="max-width:60px;" src="<?= base_url() ?>{%='assets/images/icons/pdf.png'%}"></a>
     {% } %}
     {% } %}
     </span>

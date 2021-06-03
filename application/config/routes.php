@@ -72,6 +72,7 @@ $route['Canal'] = 'Parameters/Canal/C_Canal';
 $route['Dependencias'] = 'Parameters/Dependencia/C_Dependencia'; 
 
 $route['Radicados'] = 'Radicado/C_Radicado/GetList';
-$route['Radicados/Edit/(:num)'] = 'Radicado/C_Radicado/Edit/$1';
 $route['Radicados/New'] = 'Radicado/C_Radicado/NewP';
+$route['Radicados/Edit/(:any)/(:any)'] = 'Radicado/C_Radicado/Edit/$1/$2';
+$route['Radicados/Preview/(:any)/(:any)'] = 'Radicado/C_Radicado/Preview/$1/$2';
 

@@ -1,11 +1,10 @@
 // traduciendo del inglés a español el texto del plugin de busqueda y páginación
 $(document).ready(function () {
     $(document).ajaxStart(function () {
-        $(".overlay_ajax").show();
+        $("#global-loader").show();
     }).ajaxStop(function () {
-        $(".overlay_ajax").hide();
-        $(".loader_ajax2").text("");
-    });
+        $("#global-loader").hide();
+    })
 });
 
 

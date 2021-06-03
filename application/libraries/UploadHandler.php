@@ -27,7 +27,7 @@ class UploadHandler {
         'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini',
         'max_file_size' => 'File is too big',
         'min_file_size' => 'File is too small',
-        'accept_file_types' => 'Formato de archivo no valido, solo se admiten archivos de imagen y PDF.',
+        'accept_file_types' => 'Formato de archivo no valido, solo se admiten archivos con extencion gif|jpe?g|png|pdf|xls|xlsx|csv|pptx|docx|doc|zip|rar|7z.',
         'max_number_of_files' => 'Maximum number of files exceeded',
         'max_width' => 'Image exceeds maximum width',
         'min_width' => 'Image requires a minimum width',
@@ -42,7 +42,7 @@ class UploadHandler {
         $this->response = array();
         $this->path = $path;
         
-        $delete_url = base_url() . 'Radicado/C_Radicado/Delete/' . $folder . '/' . $path . '/';
+        $delete_url = base_url() . 'Radicado/C_Radicado/Delete/' . $folder.'/';
 
         $this->options = array(
 //            'script_url' => $this->get_full_url().'/'.$this->basename($this->get_server_var('SCRIPT_NAME')),
@@ -91,9 +91,9 @@ class UploadHandler {
             // is enabled, set to 0 to disable chunked reading of files:
             'readfile_chunk_size' => 10 * 1024 * 1024, // 10 MiB
             // Defines which files can be displayed inline when downloaded:
-            'inline_file_types' => '/\.(gif|jpe?g|png|pdf|psd|tif|ai)$/i',
+            'inline_file_types' => '/\.(gif|jpe?g|png|pdf|xls|xlsx|csv|pptx|docx|doc|zip|rar|7z)$/i',
             // Defines which files (based on their names) are accepted for upload:
-            'accept_file_types' => '/\.(gif|jpe?g|png|pdf|psd|tif|ai)$/i',
+            'accept_file_types' => '/\.(gif|jpe?g|png|pdf|xls|xlsx|csv|pptx|docx|doc|zip|rar|7z)$/i',
             // The php.ini settings upload_max_filesize and post_max_size
             // take precedence over the following max_file_size setting:
             'max_file_size' => null,
@@ -101,7 +101,7 @@ class UploadHandler {
             // The maximum number of files for the upload directory:
             'max_number_of_files' => null,
             // Defines which files are handled as image files:
-            'image_file_types' => '/\.(gif|jpe?g|png|pdf|psd|tif|ai)$/i',
+            'image_file_types' => '/\.(gif|jpe?g|png|pdf|xls|xlsx|csv|pptx|docx|doc|zip|rar|7z)$/i',
             // Use exif_imagetype on all files to correct file extensions:
             'correct_image_extensions' => false,
             // Image resolution restrictions:
@@ -493,21 +493,18 @@ class UploadHandler {
             $name .= '.' . $matches[0];
         }
         if (strpos($name, '.') === false && preg_match('/xls/', $type, $matches)) {
-
             $name .= '.' . $matches[0];
         }
-        if (strpos($name, '.') === false && preg_match('/tif/', $type, $matches)) {
-
+        if (strpos($name, '.') === false && preg_match('/xlsx/', $type, $matches)) {
             $name .= '.' . $matches[0];
         }
-        if (strpos($name, '.') === false && preg_match('/psd/', $type, $matches)) {
-
+        if (strpos($name, '.') === false && preg_match('/doc/', $type, $matches)) {
             $name .= '.' . $matches[0];
         }
-        if (strpos($name, '.') === false && preg_match('/ai/', $type, $matches)) {
-
+        if (strpos($name, '.') === false && preg_match('/docx/', $type, $matches)) {
             $name .= '.' . $matches[0];
         }
+        
 
 
 

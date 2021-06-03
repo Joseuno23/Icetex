@@ -63,3 +63,15 @@
         </div>
     </div>
 </div>
+<?php if(isset($info)): ?>
+<script>
+    $(function(){
+        $('#id_dependencia').val('<?=$info->id_dependencia?>');
+        $('#id_canal').val('<?=$info->id_canal?>');
+        $('#id_tipo_radicado').val('<?=$info->id_tipo_radicado?>');
+        $('#id_tipo_documento').val('<?=$info->id_tipo_documento?>');
+        $('#asunto').val('<?=$info->asunto?>');
+        $('#descripcion').val('<?=$info->descripcion?>');
+    })
+</script> 
+<?php endif; ?>

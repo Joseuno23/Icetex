@@ -259,16 +259,18 @@
             // Next button event
             $('.sw-btn-next', this.main).on("click", function (e) {
                 e.preventDefault();
-				
-				if(validatefield('req-'+mi.current_index)){
-					if(mi.current_index == 1){
-						saveRadicado();
-					}
-					mi._showNext();
-					return false;
-				}else{
-					return false;
-				}
+                
+                $('.btn-finish').attr('disabled',true);
+                if(validatefield('req-'+mi.current_index)){
+                        if(mi.current_index == 1){
+                                saveRadicado();
+                                $('.btn-finish').attr('disabled',false);
+                        }
+                        mi._showNext();
+                        return false;
+                }else{
+                        return false;
+                }
 				
                 mi._showNext();
             });
