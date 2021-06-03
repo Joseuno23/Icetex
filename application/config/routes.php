@@ -68,6 +68,7 @@ $route['Buttons'] = 'Parameters/Security/C_Security/Buttons';
 $route['Roles'] = 'Parameters/Roles/C_Roles'; 
 $route['TipoRadicado'] = 'Parameters/Tipo_Radicado/C_Tipo_Radicado'; 
 $route['TipoDocumento'] = 'Parameters/Tipo_Documento/C_Tipo_Documento'; 
+$route['TipoSeguimiento'] = 'Parameters/Tipo_Seguimiento/C_Tipo_Seguimiento'; 
 $route['Canal'] = 'Parameters/Canal/C_Canal'; 
 $route['Dependencias'] = 'Parameters/Dependencia/C_Dependencia'; 
 
