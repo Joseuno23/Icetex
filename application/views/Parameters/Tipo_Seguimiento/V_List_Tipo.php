@@ -3,7 +3,7 @@
 
         <!-- page-header -->
         <div class="page-header">
-            <h1 class="page-title"><span class="subpage-title">Modulo</span> Dependencia</h1>
+            <h1 class="page-title"><span class="subpage-title">Modulo</span> Tipo Seguimiento</h1>
             <div class="ml-auto">
                 <div class="input-group">
                     <a href="#" onclick="Create()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Nuevo">
@@ -15,12 +15,13 @@
             </div>
         </div>
         <!-- End page-header -->
+
         <!-- Row -->
         <div>
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <h3 class="card-title">Dependencia</h3>
+                        <h3 class="card-title">Tipo Seguimiento</h3>
                     </div>
                     <div class="card-options">
                         <a href="" class="mr-4 text-default" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
@@ -43,7 +44,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="example-Modal3">DATOS DEPENDENCIAS</h5>
+                <h5 class="modal-title" id="example-Modal3">Datos Tipo Seguimiento</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -52,14 +53,8 @@
                 <form role="form" id="form" method="POST" enctype="multipart/form-data">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="descripcion">Descripcion</label>
+                            <label for="descripcion">Descripción</label>
                             <input type="text" name="descripcion" class="form-control required" id="descripcion"  />
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="descripcion">Código</label>
-                            <input type="text" name="codigo" class="form-control required" id="codigo"  />
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -77,7 +72,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">CANCELAR</button>
-                <button type="button" class="btn btn-primary create" onclick="CreateDependencia()">CREAR</button>
+                <button type="button" class="btn btn-primary create" onclick="CreateData()">CREAR</button>
                 <button type="button" class="btn btn-primary update" >ACTUALIZAR</button>
             </div>
         </div>
@@ -87,26 +82,25 @@
 <script>
 
     $(document).ready(function () {
-        $("#tabla_dependencias").DataTable();
+        $("#tabla_tipos").DataTable();
     });
 
-    function Update(id_dependencia) {
+    function Update(id_tipo) {
         $("#form")[0].reset();
 
-        $("#descripcion").val($("#desc" + id_dependencia).text());
-        $("#status").val($("#status" + id_dependencia).attr("val"));
-        $("#codigo").val($("#codigo" + id_dependencia).attr("val"));
+        $("#descripcion").val($("#desc" + id_tipo).text());
+        $("#status").val($("#status" + id_tipo).attr("val"));
         $(".update").show();
         $(".create").hide();
         $("#menu_form").modal("show");
-        $(".update").attr("onclick", "UpdateDependencia(" + id_dependencia + ")");
+        $(".update").attr("onclick", "UpdateData(" + id_tipo + ")");
     }
 
-    function UpdateDependencia(id_dependencia) {
+    function UpdateData(id_tipo) {
         var formData = new FormData($('#form')[0]);
-        formData.append("id_dependencia", id_dependencia);
+        formData.append("id_tipo", id_tipo);
         $.ajax({
-            url: "<?= base_url() ?>Parameters/Dependencia/C_Dependencia/UpdateDependencia",
+            url: "<?= base_url() ?>Parameters/Tipo_Seguimiento/C_Tipo_Seguimiento/UpdateTipo",
             type: 'POST',
             data: formData,
             async: false,
@@ -119,7 +113,7 @@
                         type: 'success'
                     }).then((result) => {
                         $("#content-table").html(obj.tabla);
-                        $("#tabla_dependencias").DataTable();
+                        $("#tabla_tipos").DataTable();
                         $("#menu_form").modal("hide");
                     });
                 } else {
@@ -133,7 +127,7 @@
             if(error.status == 200){
                 RedirectLogin();
             }else{
-                swal({title: 'Error Toma un screem y envialo a sistemas!', text: error.responseText, type: 'error'});
+                swal({title: 'Contactar a sistemas!', text: error.responseText, type: 'error'});
             }
         });
     }
@@ -146,7 +140,7 @@
         $("#menu_form").modal("show");
     }
 
-    function CreateDependencia() {
+    function CreateData() {
         var error = false;
         $(".required").each(function () {
             if (!ValidateInput($(this).attr("id"))) {
@@ -157,7 +151,7 @@
             var formData = new FormData($('#form')[0]);
 
             $.ajax({
-                url: "<?= base_url() ?>Parameters/Dependencia/C_Dependencia/CreateDependencia",
+                url: "<?= base_url() ?>Parameters/Tipo_Seguimiento/C_Tipo_Seguimiento/CreateTipo",
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -170,7 +164,7 @@
                             type: 'success'
                         }).then((result) => {
                             $("#content-table").html(obj.tabla);
-                            $("#tabla_dependencias").DataTable();
+                            $("#tabla_tipos").DataTable();
                             $("#menu_form").modal("hide");
                         });
                     } else {
@@ -184,15 +178,15 @@
                 if(error.status == 200){
                     RedirectLogin();
                 }else{
-                    swal({title: 'Error Toma un screem y envialo a sistemas!', text: error.responseText, type: 'error'});
+                    swal({title: 'Contactar a sistemas!', text: error.responseText, type: 'error'});
                 }
             });
         }
     }
 
-    function Delete(id_dependencia, titulo) {
+    function Delete(id_tipo, titulo) {
         swal({
-            title: 'Esta seguro de eliminar el Dependencia ' + titulo + '!',
+            title: 'Esta seguro de eliminar el Tipo ' + titulo + '!',
             text: "",
             type: 'warning',
             showCancelButton: true,
@@ -201,11 +195,11 @@
             confirmButtonText: 'Eliminar!'
         }).then((result) => {
             if (result) {
-                $.post("<?= base_url() ?>Parameters/Dependencia/C_Dependencia/DeleteDependencia", {id_dependencia: id_dependencia}, function (data) {
+                $.post("<?= base_url() ?>Parameters/Tipo_Seguimiento/C_Tipo_Seguimiento/DeleteTipo", {id_tipo: id_tipo}, function (data) {
                     if (data.res == "OK") {
                         swal('Operacion Exitosa!', 'El registro ha sido eliminado.', 'success').then((result) => {
                             $("#content-table").html(data.tabla);
-                            $("#tabla_dependencias").DataTable();
+                            $("#tabla_tipos").DataTable();
                         });
                     } else {
                         swal({title: 'Error!', text: data, type: 'error'});
@@ -214,7 +208,7 @@
                     if(error.status == 200){
                         RedirectLogin();
                     }else{
-                        swal({title: 'Error Toma un screem y envialo a sistemas!', text: error.responseText, type: 'error'});
+                        swal({title: 'Contactar a sistemas!', text: error.responseText, type: 'error'});
                     }
                 });
 

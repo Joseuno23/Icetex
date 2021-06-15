@@ -4,6 +4,15 @@
         <!-- page-header -->
         <div class="page-header">
             <h1 class="page-title"><span class="subpage-title">Modulo</span> Roles</h1>
+            <div class="ml-auto">
+                <div class="input-group">
+                    <a href="#" onclick="Create()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Nuevo">
+                        <span>
+                            <i class="fe fe-plus"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- End page-header -->
 

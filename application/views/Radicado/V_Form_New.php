@@ -110,6 +110,8 @@
     
     function saveRadicado(){
         
+        var codigo = $('#id_dependencia option:selected').attr('code')+'.'+$('#id_serie option:selected').attr('code')+'.'+$('#id_subserie option:selected').attr('code');
+        
         var datos = {
             nombre_solicitante:$('#nombre_solicitante').val(),
             telefono_solicitante:$('#telefono_solicitante').val(),
@@ -117,10 +119,11 @@
             direccion_solicitante:$('#direccion_solicitante').val(),
             id_dependencia:$('#id_dependencia').val(),
             id_canal:$('#id_canal').val(),
-            id_tipo_radicado:$('#id_tipo_radicado').val(),
-            id_tipo_documento:$('#id_tipo_documento').val(),
             asunto:$('#asunto').val(),
             descripcion:$('#descripcion').val(),
+            id_serie:$('#id_serie').val(),
+            id_subserie:$('#id_subserie').val(),
+            codigo:codigo,
         }
     
         $.post('<?=base_url()?>Radicado/C_Radicado/SaveRadicado',datos,function(response){
@@ -129,11 +132,51 @@
                 id = response.idEncrip;
                 token = response.idToken;
                 $('.btn-cancel').attr('disabled',true);
-                $('.title-rad').html('RADICADO N° '+response.res);
+                $('.title-rad').html('RADICADO N° '+codigo+'.'+response.res);
             }else{
                 swal('Error','Ha ocurrido un error','error');
             }
         },'json');
     }
 
+    function loadSeries(dependencia){
+        
+        if(dependencia == ''){
+            $('#id_serie').html('<option value=""  code="">. . .</option>');
+            $('#id_subserie').html('<option value=""  code="">. . .</option>');
+            return false
+        }
+        
+        $.post('<?=base_url()?>Radicado/C_Radicado/loadSeries',{id_dependencia:dependencia},function(data){
+            if(data.series){
+                var option = '<option value=""  code="">. . .</option>';
+                $.each(data.series, function (e, i) {
+                    option += '<option value="' + i.id_serie + '"  code="' + i.codigo + '">' + i.descripcion + '</option>';
+                });
+                $('#id_serie').html(option);
+            }else{
+                swal('Error','Ha ocurrido un error','error');
+            }
+        },'json');
+    }
+
+    function loadSubSeries(serie){
+        
+        if(serie == ''){
+            $('#id_subserie').html('<option value="">. . .</option>');
+            return false
+        }
+        
+        $.post('<?=base_url()?>Radicado/C_Radicado/loadSubSeries',{id_serie:serie},function(data){
+            if(data.subseries){
+                var option = '<option value="" code="">. . .</option>';
+                $.each(data.subseries, function (e, i) {
+                    option += '<option value="' + i.id_sub_serie + '"  code="' + i.codigo + '">' + i.descripcion + '</option>';
+                });
+                $('#id_subserie').html(option);
+            }else{
+                swal('Error','Ha ocurrido un error','error');
+            }
+        },'json');
+    }
 </script>

@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   CONSTRAINT `sys_menu_ibfk_2` FOREIGN KEY (`type`) REFERENCES `sys_type_menu` (`id_type_menu`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_menu: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_menu: ~12 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
 INSERT INTO `sys_menu` (`id_menu`, `title`, `type`, `url`, `icon`, `root`, `status`, `last_update`, `modified_by`, `order`) VALUES
 	(1, 'Usuarios', 3, 'Parameters', 'fa-gears', 0, 1, '2021-05-26 14:41:51', 3, 100),
@@ -178,7 +178,8 @@ INSERT INTO `sys_menu` (`id_menu`, `title`, `type`, `url`, `icon`, `root`, `stat
 	(9, 'Dependencias', 2, 'Dependencias', 'fa-circle-o', 7, 1, '2021-05-26 16:02:35', 1, 100),
 	(10, 'Canales', 2, 'Canal', 'fa-circle-o', 7, 1, '2021-05-26 16:03:08', 1, 100),
 	(11, 'Radicados', 3, 'Radicados', 'fa-file-archive-o', 0, 1, '2021-05-27 09:41:43', 3, 100),
-	(12, 'Listar', 2, 'Radicados', 'fa-circle-o', 11, 1, '2021-05-27 09:42:50', 1, 100);
+	(12, 'Listar', 2, 'Radicados', 'fa-circle-o', 11, 1, '2021-05-27 09:42:50', 1, 100),
+	(13, 'Tipo Seguimiento', 2, 'TipoSeguimiento', 'fa-circle-o', 7, 1, '2021-06-03 17:24:23', 1, 100);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_radicado
@@ -217,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles` (
   CONSTRAINT `sys_roles_ibfk_1` FOREIGN KEY (`status`) REFERENCES `sys_status` (`id_status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_roles` DISABLE KEYS */;
 INSERT INTO `sys_roles` (`id_roles`, `description`, `status`, `last_update`, `modified_by`) VALUES
 	(1, 'USUARIO ROOT', 1, '2021-05-25 15:47:09', 1),
@@ -236,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_button` (
   CONSTRAINT `sys_roles_button_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `sys_roles` (`id_roles`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles_button: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles_button: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_roles_button` DISABLE KEYS */;
 INSERT INTO `sys_roles_button` (`id_rol`, `id_button`) VALUES
 	(1, 1);
@@ -254,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `sys_roles_menu` (
   CONSTRAINT `sys_roles_menu_ibfk_2` FOREIGN KEY (`id_roles`) REFERENCES `sys_roles` (`id_roles`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles_menu: ~17 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles_menu: ~18 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_roles_menu` DISABLE KEYS */;
 INSERT INTO `sys_roles_menu` (`id_roles_menu`, `id_roles`, `id_menu`) VALUES
 	(22, 1, 1),
@@ -269,6 +270,7 @@ INSERT INTO `sys_roles_menu` (`id_roles_menu`, `id_roles`, `id_menu`) VALUES
 	(19, 1, 10),
 	(20, 1, 11),
 	(21, 1, 12),
+	(23, 1, 13),
 	(8, 2, 1),
 	(9, 2, 4),
 	(10, 3, 1),
@@ -340,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `sys_tipo_radicado` (
   PRIMARY KEY (`id_tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_tipo_radicado: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_tipo_radicado: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `sys_tipo_radicado` DISABLE KEYS */;
 INSERT INTO `sys_tipo_radicado` (`id_tipo`, `description`, `status`, `last_update`, `modified_by`) VALUES
 	(5, 'PETICIÓN', 1, '2021-05-26 15:04:53', 1),

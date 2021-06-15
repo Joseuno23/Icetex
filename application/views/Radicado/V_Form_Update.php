@@ -4,8 +4,28 @@
 
         <!-- page-header -->
         <div class="page-header">
-            <h1 class="page-title"><span class="subpage-title">Actualizar</span> Radicado</h1>
-            
+            <h1 class="page-title"><span class="subpage-title">Actualizar</span> Radicado </h1>
+            <div class="ml-auto">
+                <div class="input-group">                   
+                    <a href="#" onclick="listar()" class="btn btn-primary btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Listar">
+                        <span>
+                            <i class="fe fe-list"></i>
+                        </span>
+                    </a>
+                    <?php if(isset($BtnAddRadicado)): ?>
+                    <a href="#" onclick="NewRadicado()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Nuevo">
+                        <span>
+                            <i class="fe fe-plus"></i>
+                        </span>
+                    </a>
+                    <?php endif; ?>
+                    <a href="#" onclick="preview()" class="btn btn-secondary btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Preview">
+                        <span>
+                            <i class="fe fe-edit"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- End page-header -->
         <?php if (!isset($BtnAddRadicado)): ?>
@@ -20,7 +40,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h3 class="card-title title-rad">Radicado N°<?=$info->id_radicado?></h3>
+                            <h3 class="card-title title-rad">Radicado N° <?= $info->codigo ?>.<?= $info->id_radicado ?></h3>
                         </div>
                         <div class="card-options">
                                 <a href="" class="mr-4 text-default" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -138,19 +158,76 @@
     
     function saveRadicado(field,valor){
         
+        var codigo = $('#id_dependencia option:selected').attr('code')+'.'+$('#id_serie option:selected').attr('code')+'.'+$('#id_subserie option:selected').attr('code');
+
         var datos = {
             field:field,
             valor:valor,
-            id_radicado:<?=$info->id_radicado?>
+            id_radicado:<?=$info->id_radicado?>,
+            codigo: codigo
         }
     
         $.post('<?=base_url()?>Radicado/C_Radicado/UpdateRadicado',datos,function(response){
             if(response.res > 0){
                alertify.success('OK');
+               $('.title-rad').html('RADICADO N° '+codigo+'.<?= $info->id_radicado ?>');
+            }else{
+                swal('Error','Ha ocurrido un error','error');
+            }
+        },'json');
+    }
+    
+    function NewRadicado(){
+        window.location.replace("<?= base_url() ?>Radicados/New");
+    }
+    
+    function listar(){
+        window.location.replace("<?= base_url() ?>Radicados");
+    }
+    
+    function preview(){
+        window.location.replace("<?= base_url() ?>Radicados/Preview/<?=$idEncript?>/<?=$tokenId?>");
+    }
+
+    function loadSeries(dependencia){
+        
+        if(dependencia == ''){
+            $('#id_serie').html('<option value=""  code="">. . .</option>');
+            $('#id_subserie').html('<option value=""  code="">. . .</option>');
+            return false
+        }
+        
+        $.post('<?=base_url()?>Radicado/C_Radicado/loadSeries',{id_dependencia:dependencia},function(data){
+            if(data.series){
+                var option = '<option value=""  code="">. . .</option>';
+                $.each(data.series, function (e, i) {
+                    option += '<option value="' + i.id_serie + '"  code="' + i.codigo + '">' + i.descripcion + '</option>';
+                });
+                $('#id_serie').html(option);
             }else{
                 swal('Error','Ha ocurrido un error','error');
             }
         },'json');
     }
 
+    function loadSubSeries(serie){
+        
+        if(serie == ''){
+            $('#id_subserie').html('<option value=""  code="">. . .</option>');
+            return false
+        }
+        
+        $.post('<?=base_url()?>Radicado/C_Radicado/loadSubSeries',{id_serie:serie},function(data){
+            if(data.subseries){
+                var option = '<option value="">. . .</option>';
+                $.each(data.subseries, function (e, i) {
+                    option += '<option value="' + i.id_sub_serie + '"  code="' + i.codigo + '">' + i.descripcion + '</option>';
+                });
+                $('#id_subserie').html(option);
+            }else{
+                swal('Error','Ha ocurrido un error','error');
+            }
+        },'json');
+    }
+    
 </script>

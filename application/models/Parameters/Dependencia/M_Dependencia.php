@@ -18,7 +18,7 @@ class M_Dependencia extends VS_Model {
             $this->db->where("id_dependencia", $id);
         }
 
-        $result = $this->db->select("r.id_dependencia, r.description as dependencia, r.status, s.* ")
+        $result = $this->db->select("r.id_dependencia, r.codigo,r.description as dependencia, r.status, s.* ")
                 ->from("sys_dependencia r")
                 ->join("sys_status s", "r.status = s.id_status")
                 ->order_by("r.description")
@@ -29,7 +29,7 @@ class M_Dependencia extends VS_Model {
 
     public function UpdateDependencia() {
 
-        $data = array("description" => strtoupper($this->descripcion), "status" => $this->status);
+        $data = array("description" => strtoupper($this->descripcion), "status" => $this->status, "codigo" => $this->codigo);
         $this->db->where("id_dependencia", $this->id_dependencia);
         $result = $this->db->update("sys_dependencia", $data);
 
@@ -41,7 +41,7 @@ class M_Dependencia extends VS_Model {
     }
 
     function CreateDependencia() {
-        $data = array("description" => strtoupper($this->descripcion), "status" => $this->status);
+        $data = array("description" => strtoupper($this->descripcion), "codigo" => $this->codigo, "status" => $this->status);
         $result = $this->db->insert("sys_dependencia", $data);
 
         if ($result) {

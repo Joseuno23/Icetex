@@ -16,8 +16,8 @@ class M_Radicado extends VS_Model {
         if (!empty($this->input->get('search[value]'))) {
             $this->db->like('id_radicado', $this->input->get('search[value]'));
             $this->db->or_like('e.description', trim($this->input->get('search[value]')));
-            $this->db->or_like('td.description', trim($this->input->get('search[value]')));
-            $this->db->or_like('tr.description', trim($this->input->get('search[value]')));
+            $this->db->or_like('td.descripcion', trim($this->input->get('search[value]')));
+            $this->db->or_like('tr.descripcion', trim($this->input->get('search[value]')));
             $this->db->or_like('d.description', trim($this->input->get('search[value]')));
             $this->db->or_like('c.description', trim($this->input->get('search[value]')));
         }
@@ -28,12 +28,12 @@ class M_Radicado extends VS_Model {
         if ($fecha_ini != "all")
             $this->db->where("r.fecha between '$fecha_ini' AND DATE_ADD('$fecha_fin', INTERVAL 1 DAY) ");
         
-        $result = $this->db->select('r.*,e.description as estado,e.color,td.description as tipo_documento,tr.description as tipo_radicado,d.description as dependencia,c.description as canal,u.name as usuario')
+        $result = $this->db->select('r.*,e.description as estado,e.color,td.descripcion as serie,tr.descripcion as subserie,d.description as dependencia,c.description as canal,u.name as usuario')
                 ->from('sys_radicado r')
                 ->join('sys_users u', 'r.id_usuario = u.id_users')
                 ->join('sys_status e', 'r.id_estado = e.id_status')
-                ->join('sys_tipo_documento td ', 'r.id_tipo_documento = td.id_tipo')
-                ->join('sys_tipo_radicado tr ', 'r.id_tipo_radicado = tr.id_tipo')
+                ->join('sys_serie td ', 'r.id_serie = td.id_serie')
+                ->join('sys_sub_serie tr ', 'r.id_subserie = tr.id_sub_serie')
                 ->join('sys_dependencia d', 'r.id_dependencia = d.id_dependencia')
                 ->join('sys_canal c', 'r.id_canal = c.id_canal')
                 ->order_by('r.id_radicado', 'desc')
@@ -44,12 +44,12 @@ class M_Radicado extends VS_Model {
     }
     
     function GetInfo($id_radicado){
-        $result = $this->db->select('r.*,e.description as estado,e.color,td.description as tipo_documento,tr.description as tipo_radicado,d.description as dependencia,c.description as canal,u.name as usuario')
+        $result = $this->db->select('r.*,e.description as estado,e.color,td.descripcion as serie,tr.descripcion as subserie,d.description as dependencia,c.description as canal,u.name as usuario')
                 ->from('sys_radicado r')
                 ->join('sys_users u', 'r.id_usuario = u.id_users')
                 ->join('sys_status e', 'r.id_estado = e.id_status')
-                ->join('sys_tipo_documento td ', 'r.id_tipo_documento = td.id_tipo')
-                ->join('sys_tipo_radicado tr ', 'r.id_tipo_radicado = tr.id_tipo')
+                ->join('sys_serie td ', 'r.id_serie = td.id_serie')
+                ->join('sys_sub_serie tr ', 'r.id_subserie = tr.id_sub_serie')
                 ->join('sys_dependencia d', 'r.id_dependencia = d.id_dependencia')
                 ->join('sys_canal c', 'r.id_canal = c.id_canal')
                 ->where('r.id_radicado', $id_radicado)

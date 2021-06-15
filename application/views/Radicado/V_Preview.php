@@ -4,7 +4,30 @@
 
         <!-- page-header -->
         <div class="page-header">
-            <h1 class="page-title"><span class="subpage-title">Preview Radicado</span> N°<?= $info->id_radicado ?></h1>
+            <h1 class="page-title"><span class="subpage-title">Preview Radicado</span> N° <?= $info->codigo ?>.<?= $info->id_radicado ?></h1>
+            <div class="ml-auto">
+                <div class="input-group">                   
+                    <a href="#" onclick="listar()" class="btn btn-primary btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Listar">
+                        <span>
+                            <i class="fe fe-list"></i>
+                        </span>
+                    </a>
+                    <?php if(isset($BtnAddRadicado)): ?>
+                    <a href="#" onclick="NewRadicado()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Nuevo">
+                        <span>
+                            <i class="fe fe-plus"></i>
+                        </span>
+                    </a>
+                    <?php endif; ?>
+                    <?php if(isset($BtnEditRadicado) && !in_array($info->id_estado, array('4'))): ?>
+                    <a href="#" onclick="EditRadicado()" class="btn btn-success btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Editar">
+                        <span>
+                            <i class="fe fe-edit"></i>
+                        </span>
+                    </a>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
         <!-- Row -->
         <div class="row">
@@ -58,12 +81,12 @@
                                     <td><?= $canal->description ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Tipo Radicado</th>
-                                    <td><?= $tipo_radicado->description ?></td>
+                                    <th>Serie</th>
+                                    <td><?= $serie->descripcion ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Tipo Documento</th>
-                                    <td><?= $tipo_documento->description ?></td>
+                                    <th>Sub Serie</th>
+                                    <td><?= $subserie->descripcion ?></td>
                                 </tr>
                             </thead>
                         </table>
@@ -103,6 +126,7 @@
                                     <th>Img</th>
                                     <th>Documento</th>
                                     <th>Nombre</th>
+                                    <th>Fecha</th>
                                     <th>Descargar</th>
                                 </tr>
                             </thead>
@@ -131,6 +155,7 @@
                                         <td><?= $img ?></td>
                                         <td><?= $v->archivo ?></td>
                                         <td><?= $v->name ?></td>
+                                        <td><?= $v->fecha ?></td>
                                         <td style="text-align: center"><a href="<?= base_url() ?>Adjuntos/<?= $v->path ?>/path/<?= $v->archivo ?>" download="<?= $v->archivo ?>" class="btn btn-primary btn-xs" style="margin-left: 2px"><i class="fa fa-cloud-download"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -168,14 +193,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($seguimiento as $v) : ?>
+                                            <?php foreach ($seguimiento as $v) : 
+                                            $idE = base64_encode(openssl_encrypt($v->id_seguimiento, METHOD_ENCRYP, KEY_ENCRYP, false, $v->iv_key));    
+                                            ?>
                                             <tr>
                                                 <td class="text-nowrap"><?=$v->fecha?></td>
                                                 <td class="text-sm font-weight-600"><?=$v->tipo?></td>
                                                 <td><?=$v->name?></td>
                                                 <td ><?=$v->titulo?></td>
                                                 <td class="text-nowrap"><?=$v->descripcion?></td>
-                                                <td class="text-nowrap"><a href="#" class="btn btn-primary btn-xs" style="margin-left: 2px"><i class="fa fa-search"></i></a></td>
+                                                <td class="text-nowrap"><a target="_blank" href="<?=base_url()?>Seguimientos/Edit/<?=$idE?>/<?=$v->iv_key?>" class="btn btn-primary btn-xs" style="margin-left: 2px"><i class="fa fa-search"></i></a></td>
                                             </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -197,4 +224,16 @@
     $(function () {
 
     });
+    
+    function NewRadicado(){
+        window.location.replace("<?= base_url() ?>Radicados/New");
+    }
+    
+    function listar(){
+        window.location.replace("<?= base_url() ?>Radicados");
+    }
+    
+    function EditRadicado(){
+        window.location.replace("<?= base_url() ?>Radicados/Edit/<?=$idEncript?>/<?=$tokenId?>");
+    }
 </script>

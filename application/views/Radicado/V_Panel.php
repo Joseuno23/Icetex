@@ -7,13 +7,8 @@
             <h1 class="page-title"><span class="subpage-title">Lista</span> Radicados</h1>
              <div class="ml-auto">
                 <div class="input-group">
-                    <a  class="btn btn-primary btn-icon text-white mr-2"  id="daterange-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Calendar">
-                        <span>
-                            <i class="fe fe-calendar"></i>
-                        </span>
-                    </a>
                     <?php if(isset($BtnAddRadicado)): ?>
-                    <a href="#" onclick="NewRadicado()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New">
+                    <a href="#" onclick="NewRadicado()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Nuevo">
                         <span>
                             <i class="fe fe-plus"></i>
                         </span>
@@ -43,11 +38,11 @@
                             <table id="table_radicados" class="table table-bordered table-striped table-condensed ">
                                 <thead>
                                     <tr>
-                                        <th style="text-align:center">Radicado</th>
+                                        <th style="text-align:center">N°</th>
                                         <th style="text-align:center">Fecha</th>
                                         <th style="text-align:center">Dependencia</th>
-                                        <th style="text-align:center">Tipo Radicado</th>
-                                        <th style="text-align:center">Tipo Documento</th>
+                                        <th style="text-align:center">Serie</th>
+                                        <th style="text-align:center">SubSerie</th>
                                         <th style="text-align:center">Canal</th>
                                         <th style="text-align:center;">Usuario</th>
                                         <th style="text-align:center"></th>
@@ -76,19 +71,10 @@
         var fecha_fin = "all";
        
         var oTable = $('#table_radicados').DataTable({
-            "searching": true,
-            dom: 'Bfrtip',
             "processing": true,
             "serverSide": true,
-            lengthChange:false,
-            'autoWidth': false,
-            fixedHeader: true,
             "pageLength": 10,
-            sScrollX: true,
-            scrollCollapse: true,
-            "scrollY": "400px",
             "ordering": false,
-            "buttons": [],
             "ajax": {
                 "url": "<?= base_url() ?>Radicado/C_Radicado/GetListTable/" + id+ '/' + fecha_ini + '/' + fecha_fin,
                 "dataSrc": "datos"
@@ -108,7 +94,8 @@
                     "sPrevious": "Anterior"
                 }
             }, columnDefs: [
-                {className: "text-center ", targets: [0], width: '50px'},
+                {className: "text-center ", targets: [0], width: '60px'},
+                {className: "text-center ", targets: [1], width: '80px'},
 //                {className: "text-center ", targets: [1], width: '60px'},
 //                {className: "text-center", targets: [7]},
                 {className: "text-center td-estado", targets: [7],width: '130px'}
@@ -126,9 +113,9 @@
         window.location.replace("<?= base_url() ?>Radicados/New");
     }
     
-    function Anule(id,estado,modulo){
+    function Anule(id,estado,code){
         swal({
-            title: 'Confirma la anulación del radicado '+id+'?',
+            title: 'Confirma la anulación del radicado '+code+'.'+id+'?',
             text: "",
             type: 'warning',
             showCancelButton: true,
@@ -140,8 +127,8 @@
             if (result) {
                 $.post('<?= base_url() ?>Radicado/C_Radicado/Anule',{id_radicado:id,status:'4'},function(data){
                     if(data.res == 'OK'){
-                        $('.btn1-'+id).attr('class','btn btn-danger btn-xs btn-left').html('Anulado');
-                        $('.btn2-'+id).attr('class','btn btn-danger btn-xs dropdown-toggle');
+                        $('.btn1-'+id).attr('class','btn btn-default btn-xs btn-left').html('ANULADO');
+                        $('.btn2-'+id).attr('class','btn btn-default btn-xs dropdown-toggle');
                         alertify.success('OK');
                     }else{
                         swal({title: 'Error!', text: data.res, type: 'error'});
@@ -151,5 +138,13 @@
         }, function (dismiss) {
             
         }).catch(swal.noop)
+    }
+    
+    function EditRadicado(idEncript, tokenId){
+        window.location.replace("<?= base_url() ?>Radicados/Edit/"+idEncript+"/"+tokenId);
+    }
+    
+    function previewRadicado(idEncript, tokenId){
+        window.location.replace("<?= base_url() ?>Radicados/Preview/"+idEncript+"/"+tokenId);
     }
 </script>

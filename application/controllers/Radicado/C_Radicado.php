@@ -14,7 +14,7 @@ class C_Radicado extends Controller {
         $array['menus'] = $this->M_Main->ListMenu();
 
         $Header['menu'] = $this->load->view('Template/Menu/V_Menu', $array, true);
-        $Header['array_css'] = array(DATATABLES_CSS, DATATABLES_CSS_B, SWEETALERT_CSS);
+        $Header['array_css'] = array(DATATABLES_CSS, DATATABLES_CSS_B, SWEETALERT_CSS, ALERTIFY_CSS, ALERTIFY_CSS2);
         $this->load->view('Template/V_Header', $Header);
         
         foreach ($this->M_Radicado->LoadButtonPermissions("RADICADO") as $btn) {
@@ -24,7 +24,7 @@ class C_Radicado extends Controller {
         $data['radicados'] = $this->M_Radicado->GetPptoCompleteInfo(false, false, 'all', date('Y') . '-01-01', date('Y-m-d'));
         $this->load->view('Radicado/V_Panel', $data);
 
-        $Footer['array_js'] = array(SWEETALERT_JS);
+        $Footer['array_js'] = array(SWEETALERT_JS, ALERTIFY_JS);
         $Footer["datatable"] = DATATABLE_JS;
         $this->load->view('Template/V_Footer', $Footer);
     }
@@ -43,6 +43,10 @@ class C_Radicado extends Controller {
 
         $array = array();
         foreach ($rows['result'] as $v) {
+            
+          
+            $idEncrip = base64_encode($this->crip($v->id_radicado, $v->iv_key));
+    
 
             $btn = '<div class="btn-group btnI' . $v->id_radicado . '" >
                         <button  type="button" class="btn1-' . $v->id_radicado . ' btn btn-' . $v->color . ' btn-xs btn-left">' . $v->estado . '</button>
@@ -52,11 +56,13 @@ class C_Radicado extends Controller {
                         </button>';
 
             $btn .= '<ul class="dropdown-menu u-' . $v->id_radicado . '" role="menu">';
-            $btn .= (isset($BtnEditRadicado)) ? '<li onclick="EditPpto(' . $v->id_radicado . ')"><a href="#"><i class="fa fa-fw fa-edit"></i> Editar</a></li>' : '';
-            $btn .= (isset($BtnAnuleRadicado)) ? '<li onclick="Anule(' . $v->id_radicado . ',' . $v->id_estado . ')"><a style="color: red;" href="#"><i class="fa fa-fw fa-trash-o"></i> Anular</a></li>' : '';
+            $btn .= '<li onclick="previewRadicado(\''.$idEncrip.'\',\'' . $v->iv_key .'\')"><a href="#"><i class="fa fa-fw fa-edit"></i> Preview</a></li>';
+            $btn .= (isset($BtnEditRadicado) && !in_array($v->id_estado, array('4'))) ? '<li onclick="EditRadicado(\''.$idEncrip.'\',\'' . $v->iv_key .'\')"><a href="#"><i class="fa fa-fw fa-edit"></i> Editar</a></li>' : '';
+            $btn .= (isset($BtnAnuleRadicado) && !in_array($v->id_estado, array('4'))) ? '<li onclick="Anule(' . $v->id_radicado . ',' . $v->id_estado . ',\'' . $v->codigo . '\')"><a style="color: red;" href="#"><i class="fa fa-fw fa-trash-o"></i> Anular</a></li>' : '';
             $btn .= '</ul></div>';
-
-            $array[] = array($v->id_radicado, $v->fecha, $v->dependencia, $v->tipo_radicado, $v->tipo_documento, $v->canal, explode(' ', $v->usuario)[0], $btn);
+            $fecha = strtotime($v->fecha);
+            $fecha = date('Y-m-d', $fecha);
+            $array[] = array($v->codigo.'.'.$v->id_radicado, $fecha, $v->dependencia, $v->serie, $v->subserie, $v->canal, explode(' ', $v->usuario)[0], $btn);
         }
 
         echo json_encode(array('draw' => $this->input->get("draw"), 'recordsFiltered' => $rows2['num'], 'datos' => $array));
@@ -78,6 +84,8 @@ class C_Radicado extends Controller {
         $info['canales'] = $this->M_Radicado->select('sys_canal', 'description');
         $info['tipos_radicado'] = $this->M_Radicado->select('sys_tipo_radicado', 'description');
         $info['tipos_documento'] = $this->M_Radicado->select('sys_tipo_documento', 'description');
+        $info['series'] = $this->M_Radicado->select('sys_serie', 'descripcion');
+        $info['subseries'] = $this->M_Radicado->select('sys_sub_serie', 'descripcion');
         
         $data['info_g'] = $this->load->view('Radicado/V_Info_General',$info,true);
         $data['form_file'] = $this->load->view('Radicado/V_Files',array('adjuntos'=>array()),true);
@@ -109,6 +117,8 @@ class C_Radicado extends Controller {
         $info['canales'] = $this->M_Radicado->select('sys_canal', 'description');
         $info['tipos_radicado'] = $this->M_Radicado->select('sys_tipo_radicado', 'description');
         $info['tipos_documento'] = $this->M_Radicado->select('sys_tipo_documento', 'description');
+        $info['series'] = $this->M_Radicado->selecTable('sys_serie', 'id_dependencia', $data['info']->id_dependencia);
+        $info['subseries'] = $this->M_Radicado->selecTable('sys_sub_serie', 'id_serie', $data['info']->id_serie);
         $info['info'] = $data['info'];
         
         $data['info_g'] = $this->load->view('Radicado/V_Info_General',$info,true);
@@ -139,8 +149,14 @@ class C_Radicado extends Controller {
         
         $data['dependencia'] = $this->M_Radicado->selecTable('sys_dependencia', 'id_dependencia', $data['info']->id_dependencia, true);
         $data['canal'] = $this->M_Radicado->selecTable('sys_canal', 'id_canal', $data['info']->id_canal, true);
-        $data['tipo_radicado'] = $this->M_Radicado->selecTable('sys_tipo_radicado', 'id_tipo', $data['info']->id_tipo_radicado, true);
-        $data['tipo_documento'] = $this->M_Radicado->selecTable('sys_tipo_documento', 'id_tipo', $data['info']->id_tipo_documento, true);
+        $data['serie'] = $this->M_Radicado->selecTable('sys_serie', 'id_serie', $data['info']->id_serie, true);
+        $data['subserie'] = $this->M_Radicado->selecTable('sys_sub_serie', 'id_sub_serie', $data['info']->id_subserie, true);
+        
+        foreach ($this->M_Radicado->LoadButtonPermissions("RADICADO") as $btn) {
+            $data[$btn->name] = $btn->name;
+        }
+        $data['idEncript'] = $idEncript;
+        $data['tokenId'] = $tokenId;
         
         $this->load->view('Radicado/V_Preview',$data);
         
@@ -167,7 +183,8 @@ class C_Radicado extends Controller {
     
     function UpdateRadicado(){
         $data = array(
-            $this->input->post('field')=>$this->input->post('valor')
+            $this->input->post('field')=>$this->input->post('valor'),
+            'codigo'=>$this->input->post('codigo'),
         );
         $result = $this->M_Radicado->UpdateData('sys_radicado', 'id_radicado', $this->input->post('id_radicado'), $data);
         
@@ -212,6 +229,28 @@ class C_Radicado extends Controller {
         
     }
     
+    function Anule(){
+        $id_radicado = $this->input->post('id_radicado');
+      
+        $res = 'OK';
+
+        $this->M_Radicado->UpdateData('sys_radicado', 'id_radicado', $id_radicado, array(
+            'id_estado'=> 4,
+        ));
+      
+        echo json_encode(array('res'=>$res));
+    }
     
+    function loadSeries(){
+        $result = $this->M_Radicado->selecTable('sys_serie', 'id_dependencia', $this->input->post('id_dependencia'));
+        
+        echo json_encode(array('series'=>$result));
+    }
+    
+    function loadSubSeries(){
+        $result = $this->M_Radicado->selecTable('sys_sub_serie', 'id_serie', $this->input->post('id_serie'));
+        
+        echo json_encode(array('subseries'=>$result));
+    }
     
 }

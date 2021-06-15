@@ -62,6 +62,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-0 mt-3"><?= $v->name ?></h5>
                                 <p class="card-text text-muted"><?= $v->archivo ?>.</p>
+                                <p class="card-text text-muted"><?= $v->fecha ?>.</p>
                                 
                                 <a href="<?= base_url() ?>Adjuntos/<?= $v->path ?>/path/<?= $v->archivo ?>" download="<?= $v->archivo ?>" class="btn btn-primary btn-xs pull-right" style="margin-left: 2px"><i class="fa fa-cloud-download"></i></a>
                                 <a onclick="deleteAdjunto(<?= $v->id ?>,'<?=$v->path?>','<?=$v->archivo?>')" class="btn btn-warning btn-xs "><i class="fa fa-trash"></i></a>

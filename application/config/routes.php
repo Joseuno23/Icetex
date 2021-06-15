@@ -71,9 +71,16 @@ $route['TipoDocumento'] = 'Parameters/Tipo_Documento/C_Tipo_Documento';
 $route['TipoSeguimiento'] = 'Parameters/Tipo_Seguimiento/C_Tipo_Seguimiento'; 
 $route['Canal'] = 'Parameters/Canal/C_Canal'; 
 $route['Dependencias'] = 'Parameters/Dependencia/C_Dependencia'; 
+$route['Series'] = 'Parameters/Serie/C_Serie'; 
+$route['Subseries'] = 'Parameters/Subserie/C_Subserie'; 
 
+//radicados
 $route['Radicados'] = 'Radicado/C_Radicado/GetList';
 $route['Radicados/New'] = 'Radicado/C_Radicado/NewP';
 $route['Radicados/Edit/(:any)/(:any)'] = 'Radicado/C_Radicado/Edit/$1/$2';
 $route['Radicados/Preview/(:any)/(:any)'] = 'Radicado/C_Radicado/Preview/$1/$2';
 
+
+//seguimiento
+$route['Seguimientos/New'] = 'Seguimiento/C_Seguimiento/NewP';
+$route['Seguimientos/Edit/(:any)/(:any)'] = 'Seguimiento/C_Seguimiento/Edit/$1/$2';
