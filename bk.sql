@@ -25,12 +25,41 @@ CREATE TABLE IF NOT EXISTS `sys_adjuntos` (
   `archivo` varchar(100) DEFAULT NULL,
   `tipo` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla bd_files.sys_adjuntos: ~0 rows (aproximadamente)
+DELETE FROM `sys_adjuntos`;
 /*!40000 ALTER TABLE `sys_adjuntos` DISABLE KEYS */;
+INSERT INTO `sys_adjuntos` (`id`, `id_radicado`, `id_user`, `path`, `archivo`, `tipo`, `name`, `fecha`) VALUES
+	(1, 2, 1, 'files/2021/06/', '4301623194325.xls', 'xlsx', 'ruth.xlsx', '2021-06-08 18:18:45'),
+	(2, 2, 1, 'files/2021/06/', '3161623270406.pdf', 'application/pdf', 'pazysalvo.pdf', '2021-06-09 15:26:46');
 /*!40000 ALTER TABLE `sys_adjuntos` ENABLE KEYS */;
+
+-- Volcando estructura para tabla bd_files.sys_adjuntos_seguimiento
+CREATE TABLE IF NOT EXISTS `sys_adjuntos_seguimiento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_seguimiento` int(11) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `path` varchar(100) DEFAULT NULL,
+  `archivo` varchar(100) DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla bd_files.sys_adjuntos_seguimiento: ~3 rows (aproximadamente)
+DELETE FROM `sys_adjuntos_seguimiento`;
+/*!40000 ALTER TABLE `sys_adjuntos_seguimiento` DISABLE KEYS */;
+INSERT INTO `sys_adjuntos_seguimiento` (`id`, `id_seguimiento`, `id_user`, `path`, `archivo`, `tipo`, `name`, `fecha`) VALUES
+	(1, 1, 1, 'files/2021/06/', '1321623453112.pdf', 'application/pdf', '8671623453059.pdf', '2021-06-11 18:11:52'),
+	(2, 2, 1, 'files/2021/06/', '7381623790971.pdf', 'application/pdf', 'pazysalvo.pdf', '2021-06-15 16:02:51'),
+	(3, 3, 1, 'files/2021/06/', '821623791748.xls', 'xlsx', 'PiezasAll.xlsx', '2021-06-15 16:15:48'),
+	(4, 3, 1, 'files/2021/06/', '7121623791749.xls', 'xlsx', 'Piezas_Mes.xlsx', '2021-06-15 16:15:49'),
+	(5, 3, 1, 'files/2021/06/', '1871623791749.xls', 'xlsx', 'pendientes.xlsx', '2021-06-15 16:15:49');
+/*!40000 ALTER TABLE `sys_adjuntos_seguimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_button
 CREATE TABLE IF NOT EXISTS `sys_button` (
@@ -43,10 +72,11 @@ CREATE TABLE IF NOT EXISTS `sys_button` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla bd_files.sys_button: ~3 rows (aproximadamente)
+DELETE FROM `sys_button`;
 /*!40000 ALTER TABLE `sys_button` DISABLE KEYS */;
 INSERT INTO `sys_button` (`id_button`, `description`, `name`, `application`, `title`) VALUES
 	(1, 'Add Radicado', 'BtnAddRadicado', 'RADICADO', 'Radicado'),
-	(2, 'Edir Radicado', 'BtnEditRadicado', 'RADICADO', 'Radicado'),
+	(2, 'Edit Radicado', 'BtnEditRadicado', 'RADICADO', 'Radicado'),
 	(3, 'Anular Radicado', 'BtnAnuleRadicado', 'RADICADO', 'Radicado');
 /*!40000 ALTER TABLE `sys_button` ENABLE KEYS */;
 
@@ -59,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `sys_canal` (
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla bd_files.sys_canal: 4 rows
+DELETE FROM `sys_canal`;
 /*!40000 ALTER TABLE `sys_canal` DISABLE KEYS */;
 INSERT INTO `sys_canal` (`id_canal`, `description`, `status`) VALUES
 	(1, 'WEB', 1),
@@ -71,16 +102,19 @@ INSERT INTO `sys_canal` (`id_canal`, `description`, `status`) VALUES
 CREATE TABLE IF NOT EXISTS `sys_dependencia` (
   `id_dependencia` int(11) NOT NULL AUTO_INCREMENT,
   `description` text NOT NULL,
+  `codigo` varchar(50) DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id_dependencia`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Volcando datos para la tabla bd_files.sys_dependencia: 3 rows
+-- Volcando datos para la tabla bd_files.sys_dependencia: 4 rows
+DELETE FROM `sys_dependencia`;
 /*!40000 ALTER TABLE `sys_dependencia` DISABLE KEYS */;
-INSERT INTO `sys_dependencia` (`id_dependencia`, `description`, `status`) VALUES
-	(1, 'SISTEMAS', 1),
-	(2, 'ARCHIVOS', 1),
-	(3, 'OTRO.', 1);
+INSERT INTO `sys_dependencia` (`id_dependencia`, `description`, `codigo`, `status`) VALUES
+	(1, 'SECRETARIA GENERAL Y DE GOBIERNO', '100', 1),
+	(2, 'DESPACHO DE LA ALCALDIA', '10', 1),
+	(3, 'ASESOR CONTROL INTERNO', '50', 1),
+	(4, 'COMISARIA DE FAMILIA', '110', 1);
 /*!40000 ALTER TABLE `sys_dependencia` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_icon
@@ -90,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `sys_icon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla bd_files.sys_icon: ~51 rows (aproximadamente)
+DELETE FROM `sys_icon`;
 /*!40000 ALTER TABLE `sys_icon` DISABLE KEYS */;
 INSERT INTO `sys_icon` (`icon`) VALUES
 	('fa-area-chart'),
@@ -162,29 +197,36 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   KEY `FK_menu_tipo_menu` (`type`) USING BTREE,
   CONSTRAINT `sys_menu_ibfk_1` FOREIGN KEY (`status`) REFERENCES `sys_status` (`id_status`),
   CONSTRAINT `sys_menu_ibfk_2` FOREIGN KEY (`type`) REFERENCES `sys_type_menu` (`id_type_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_menu: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_menu: ~16 rows (aproximadamente)
+DELETE FROM `sys_menu`;
 /*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
 INSERT INTO `sys_menu` (`id_menu`, `title`, `type`, `url`, `icon`, `root`, `status`, `last_update`, `modified_by`, `order`) VALUES
 	(1, 'Usuarios', 3, 'Parameters', 'fa-gears', 0, 1, '2021-05-26 14:41:51', 3, 100),
-	(2, 'Tipo Radicado', 2, 'TipoRadicado', 'fa-circle-o', 7, 1, '2021-05-26 14:41:51', 1, 100),
+	(2, 'Tipo Radicado', 2, 'TipoRadicado', 'fa-circle-o', 7, 4, '2021-05-26 14:41:51', 1, 100),
 	(3, 'Roles', 2, 'Roles', 'fa-circle-o', 7, 1, '2021-05-26 14:41:51', 1, 100),
 	(4, 'Usuarios', 2, 'User', 'fa-users', 1, 1, '2021-05-26 14:41:51', 2, 100),
 	(5, 'Permisos Menu', 2, 'Permissions', 'fa-lock', 1, 1, '2021-05-26 14:41:51', 1, 100),
 	(6, 'Permisos Botones', 2, 'Buttons', 'fa-lock', 1, 1, '2021-05-26 14:41:51', 1, 100),
 	(7, 'Datos Maestros', 3, 'Parameters', 'fa-user-secret', 0, 1, '2021-05-26 14:41:51', 3, 100),
-	(8, 'Tipo Documento', 2, 'TipoDocumento', 'fa-circle-o', 7, 1, '2021-05-26 16:01:58', 1, 100),
+	(8, 'Tipo Documento', 2, 'TipoDocumento', 'fa-circle-o', 7, 4, '2021-05-26 16:01:58', 1, 100),
 	(9, 'Dependencias', 2, 'Dependencias', 'fa-circle-o', 7, 1, '2021-05-26 16:02:35', 1, 100),
 	(10, 'Canales', 2, 'Canal', 'fa-circle-o', 7, 1, '2021-05-26 16:03:08', 1, 100),
 	(11, 'Radicados', 3, 'Radicados', 'fa-file-archive-o', 0, 1, '2021-05-27 09:41:43', 3, 100),
-	(12, 'Listar', 2, 'Radicados', 'fa-circle-o', 11, 1, '2021-05-27 09:42:50', 1, 100),
-	(13, 'Tipo Seguimiento', 2, 'TipoSeguimiento', 'fa-circle-o', 7, 1, '2021-06-03 17:24:23', 1, 100);
+	(12, 'Listar Radicados', 2, 'Radicados', 'fa-circle-o', 11, 1, '2021-05-27 09:42:50', 1, 100),
+	(13, 'Tipo Seguimiento', 2, 'TipoSeguimiento', 'fa-circle-o', 7, 1, '2021-06-03 17:24:23', 1, 100),
+	(14, 'Seguimientos', 3, 'Seguimientos', 'fa-circle-o', 0, 1, '2021-06-04 17:25:09', 3, 100),
+	(15, 'Agregar Nuevo', 2, 'Radicados/New', 'fa-circle-o', 11, 1, '2021-06-04 17:27:20', 1, 100),
+	(16, 'Agregar Nuevo', 2, 'Seguimientos/New', 'fa-circle-o', 14, 1, '2021-06-04 17:29:20', 3, 100),
+	(17, 'Series', 2, 'Series', 'fa-circle-o', 7, 1, '2021-06-08 14:49:08', 1, 100),
+	(18, 'Sub Series', 2, 'Subseries', 'fa-circle-o', 7, 1, '2021-06-08 14:49:29', 1, 100);
 /*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_radicado
 CREATE TABLE IF NOT EXISTS `sys_radicado` (
   `id_radicado` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(50) NOT NULL DEFAULT '0',
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_usuario` int(11) DEFAULT NULL,
   `nombre_solicitante` varchar(200) DEFAULT NULL,
@@ -197,13 +239,19 @@ CREATE TABLE IF NOT EXISTS `sys_radicado` (
   `id_tipo_radicado` int(11) DEFAULT NULL,
   `id_dependencia` int(11) DEFAULT NULL,
   `id_tipo_documento` int(11) DEFAULT NULL,
+  `id_serie` int(11) DEFAULT NULL,
+  `id_subserie` int(11) DEFAULT NULL,
   `id_estado` int(11) DEFAULT '1',
   `iv_key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_radicado`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla bd_files.sys_radicado: ~0 rows (aproximadamente)
+DELETE FROM `sys_radicado`;
 /*!40000 ALTER TABLE `sys_radicado` DISABLE KEYS */;
+INSERT INTO `sys_radicado` (`id_radicado`, `codigo`, `fecha`, `id_usuario`, `nombre_solicitante`, `documento_solicitante`, `telefono_solicitante`, `direccion_solicitante`, `id_canal`, `asunto`, `descripcion`, `id_tipo_radicado`, `id_dependencia`, `id_tipo_documento`, `id_serie`, `id_subserie`, `id_estado`, `iv_key`) VALUES
+	(1, '10.02.05', '2021-06-08 18:46:47', 1, 'Jose Ramith', '1043003865', '3013057448', 'cra 8 n 4', 3, 'Asunto', '', 5, 2, 2, 2, 10, 1, '11d35e2de8ebf56a'),
+	(2, '10.01.01', '2021-06-09 15:26:29', 1, 'Jose ', '1043003865', '3013057448', 'cra 8 n 4', 2, 'Asunto', 'hghgh', NULL, 2, NULL, 1, 1, 4, 'd45cdc149a67be20');
 /*!40000 ALTER TABLE `sys_radicado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_roles
@@ -218,7 +266,8 @@ CREATE TABLE IF NOT EXISTS `sys_roles` (
   CONSTRAINT `sys_roles_ibfk_1` FOREIGN KEY (`status`) REFERENCES `sys_status` (`id_status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles: ~5 rows (aproximadamente)
+DELETE FROM `sys_roles`;
 /*!40000 ALTER TABLE `sys_roles` DISABLE KEYS */;
 INSERT INTO `sys_roles` (`id_roles`, `description`, `status`, `last_update`, `modified_by`) VALUES
 	(1, 'USUARIO ROOT', 1, '2021-05-25 15:47:09', 1),
@@ -237,10 +286,13 @@ CREATE TABLE IF NOT EXISTS `sys_roles_button` (
   CONSTRAINT `sys_roles_button_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `sys_roles` (`id_roles`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles_button: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles_button: ~3 rows (aproximadamente)
+DELETE FROM `sys_roles_button`;
 /*!40000 ALTER TABLE `sys_roles_button` DISABLE KEYS */;
 INSERT INTO `sys_roles_button` (`id_rol`, `id_button`) VALUES
-	(1, 1);
+	(1, 1),
+	(1, 2),
+	(1, 3);
 /*!40000 ALTER TABLE `sys_roles_button` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_roles_menu
@@ -253,9 +305,10 @@ CREATE TABLE IF NOT EXISTS `sys_roles_menu` (
   KEY `FK_roles_menu_menu` (`id_menu`) USING BTREE,
   CONSTRAINT `sys_roles_menu_ibfk_1` FOREIGN KEY (`id_menu`) REFERENCES `sys_menu` (`id_menu`),
   CONSTRAINT `sys_roles_menu_ibfk_2` FOREIGN KEY (`id_roles`) REFERENCES `sys_roles` (`id_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_roles_menu: ~18 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_roles_menu: ~17 rows (aproximadamente)
+DELETE FROM `sys_roles_menu`;
 /*!40000 ALTER TABLE `sys_roles_menu` DISABLE KEYS */;
 INSERT INTO `sys_roles_menu` (`id_roles_menu`, `id_roles`, `id_menu`) VALUES
 	(22, 1, 1),
@@ -271,6 +324,11 @@ INSERT INTO `sys_roles_menu` (`id_roles_menu`, `id_roles`, `id_menu`) VALUES
 	(20, 1, 11),
 	(21, 1, 12),
 	(23, 1, 13),
+	(24, 1, 14),
+	(25, 1, 15),
+	(26, 1, 16),
+	(27, 1, 17),
+	(28, 1, 18),
 	(8, 2, 1),
 	(9, 2, 4),
 	(10, 3, 1),
@@ -283,20 +341,44 @@ INSERT INTO `sys_roles_menu` (`id_roles_menu`, `id_roles`, `id_menu`) VALUES
 CREATE TABLE IF NOT EXISTS `sys_seguimiento` (
   `id_seguimiento` int(11) NOT NULL AUTO_INCREMENT,
   `id_radicado` int(11) DEFAULT NULL,
+  `codigo` varchar(50) DEFAULT NULL,
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_tipo_seguimiento` int(11) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL,
   `titulo` varchar(200) DEFAULT NULL,
   `descripcion` longtext,
+  `iv_key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_seguimiento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla bd_files.sys_seguimiento: ~2 rows (aproximadamente)
+DELETE FROM `sys_seguimiento`;
 /*!40000 ALTER TABLE `sys_seguimiento` DISABLE KEYS */;
-INSERT INTO `sys_seguimiento` (`id_seguimiento`, `id_radicado`, `fecha`, `id_tipo_seguimiento`, `id_usuario`, `titulo`, `descripcion`) VALUES
-	(1, 7, '2021-06-03 17:09:07', 1, 1, 'Asignación de caso', 'Se realiza asignación de caso'),
-	(2, 7, '2021-06-03 17:09:40', 2, 1, 'Gestión de documento', 'Se solcita firma de');
+INSERT INTO `sys_seguimiento` (`id_seguimiento`, `id_radicado`, `codigo`, `fecha`, `id_tipo_seguimiento`, `id_usuario`, `titulo`, `descripcion`, `iv_key`) VALUES
+	(1, 1, '10.02.05', '2021-06-11 17:29:04', 5, 1, 'Seguimiento n1', 'descr del seguimineto', '298c3389bb891abc'),
+	(2, 1, '10.02.05', '2021-06-15 16:02:32', 3, 1, 'Seguimiento n2', 'rfgertg ertgretge rt', '4b47af6d05122d6f'),
+	(3, 1, '10.02.05', '2021-06-15 16:15:34', 4, 1, 'Seguimiento n3', 'qwdefqwef', 'bd648c0d9fe34a85');
 /*!40000 ALTER TABLE `sys_seguimiento` ENABLE KEYS */;
+
+-- Volcando estructura para tabla bd_files.sys_serie
+CREATE TABLE IF NOT EXISTS `sys_serie` (
+  `id_serie` int(11) NOT NULL AUTO_INCREMENT,
+  `id_dependencia` int(11) DEFAULT NULL,
+  `codigo` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_serie`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla bd_files.sys_serie: ~3 rows (aproximadamente)
+DELETE FROM `sys_serie`;
+/*!40000 ALTER TABLE `sys_serie` DISABLE KEYS */;
+INSERT INTO `sys_serie` (`id_serie`, `id_dependencia`, `codigo`, `descripcion`, `status`) VALUES
+	(1, 2, '01', 'ACCIONES CONSTITUCIONALES', 1),
+	(2, 2, '02', 'ACTOS ADMINISTRATIVOS', 1),
+	(3, 2, '03', 'ACTAS', 1),
+	(4, 2, '10', 'COMUNICACIONES OFICIALES', 1);
+/*!40000 ALTER TABLE `sys_serie` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_status
 CREATE TABLE IF NOT EXISTS `sys_status` (
@@ -308,6 +390,7 @@ CREATE TABLE IF NOT EXISTS `sys_status` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla bd_files.sys_status: ~4 rows (aproximadamente)
+DELETE FROM `sys_status`;
 /*!40000 ALTER TABLE `sys_status` DISABLE KEYS */;
 INSERT INTO `sys_status` (`id_status`, `description`, `color`, `hex`) VALUES
 	(1, 'ACTIVO', 'success', '#b6ef9e'),
@@ -315,6 +398,33 @@ INSERT INTO `sys_status` (`id_status`, `description`, `color`, `hex`) VALUES
 	(3, 'ELIMINADO', 'danger', '#dd4b39'),
 	(4, 'ANULADO', 'default', '#b5bbc8');
 /*!40000 ALTER TABLE `sys_status` ENABLE KEYS */;
+
+-- Volcando estructura para tabla bd_files.sys_sub_serie
+CREATE TABLE IF NOT EXISTS `sys_sub_serie` (
+  `id_sub_serie` int(11) NOT NULL AUTO_INCREMENT,
+  `id_serie` int(11) DEFAULT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `codigo` varchar(50) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_sub_serie`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla bd_files.sys_sub_serie: ~9 rows (aproximadamente)
+DELETE FROM `sys_sub_serie`;
+/*!40000 ALTER TABLE `sys_sub_serie` DISABLE KEYS */;
+INSERT INTO `sys_sub_serie` (`id_sub_serie`, `id_serie`, `descripcion`, `codigo`, `status`) VALUES
+	(1, 1, 'ACCION DE CUMPLIMIENTO', '01', 1),
+	(2, 1, 'ACCIÓN DE REPARACIÓN DIRECTA ', '02', 1),
+	(3, 1, 'ACCIÓN DE TUTELA', '03', 1),
+	(4, 1, 'ACCION POPULAR', '04', 1),
+	(5, 1, 'ACCIONES DE GRUPO', '05', 1),
+	(6, 2, 'ACUERDOS MUNICIPALES', '01', 1),
+	(7, 2, 'CIRCULARES INFORMATIVAS', '02', 1),
+	(8, 2, 'CIRCULARES NORMATIVAS', '03', 1),
+	(9, 2, 'DECRETOS', '04', 1),
+	(10, 2, 'RESOLUCIONES', '05', 1),
+	(11, 2, 'RESOLUCIÓN DE ADJUDICACIONES, PREDIOS FISCALES', '06', 1);
+/*!40000 ALTER TABLE `sys_sub_serie` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_tipo_documento
 CREATE TABLE IF NOT EXISTS `sys_tipo_documento` (
@@ -325,6 +435,7 @@ CREATE TABLE IF NOT EXISTS `sys_tipo_documento` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla bd_files.sys_tipo_documento: 3 rows
+DELETE FROM `sys_tipo_documento`;
 /*!40000 ALTER TABLE `sys_tipo_documento` DISABLE KEYS */;
 INSERT INTO `sys_tipo_documento` (`id_tipo`, `description`, `status`) VALUES
 	(1, 'RESOLUCIÓN', 1),
@@ -342,7 +453,8 @@ CREATE TABLE IF NOT EXISTS `sys_tipo_radicado` (
   PRIMARY KEY (`id_tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla bd_files.sys_tipo_radicado: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_tipo_radicado: ~6 rows (aproximadamente)
+DELETE FROM `sys_tipo_radicado`;
 /*!40000 ALTER TABLE `sys_tipo_radicado` DISABLE KEYS */;
 INSERT INTO `sys_tipo_radicado` (`id_tipo`, `description`, `status`, `last_update`, `modified_by`) VALUES
 	(5, 'PETICIÓN', 1, '2021-05-26 15:04:53', 1),
@@ -358,16 +470,18 @@ CREATE TABLE IF NOT EXISTS `sys_tipo_seguimiento` (
   `description` varchar(100) DEFAULT NULL,
   `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id_tipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla bd_files.sys_tipo_seguimiento: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla bd_files.sys_tipo_seguimiento: ~6 rows (aproximadamente)
+DELETE FROM `sys_tipo_seguimiento`;
 /*!40000 ALTER TABLE `sys_tipo_seguimiento` DISABLE KEYS */;
 INSERT INTO `sys_tipo_seguimiento` (`id_tipo`, `description`, `status`) VALUES
-	(1, 'Solicitar Documentos', 1),
-	(2, 'Reasignar Responsable', 1),
-	(3, 'Seguimiento General', 1),
-	(4, 'Cierre', 1),
-	(5, 'Enviar Respuesta', 1);
+	(1, 'SOLICITAR DOCUMENTOS', 1),
+	(2, 'REASIGNAR RESPONSABLE', 1),
+	(3, 'SEGUIMIENTO GENERAL', 1),
+	(4, 'CIERRE', 1),
+	(5, 'ENVIAR RESPUESTA', 1),
+	(6, 'OTRO', 1);
 /*!40000 ALTER TABLE `sys_tipo_seguimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_type_menu
@@ -378,6 +492,7 @@ CREATE TABLE IF NOT EXISTS `sys_type_menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla bd_files.sys_type_menu: ~4 rows (aproximadamente)
+DELETE FROM `sys_type_menu`;
 /*!40000 ALTER TABLE `sys_type_menu` DISABLE KEYS */;
 INSERT INTO `sys_type_menu` (`id_type_menu`, `description`) VALUES
 	(1, 'Raiz - Menu principal sin submenu'),
@@ -408,6 +523,7 @@ CREATE TABLE IF NOT EXISTS `sys_users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla bd_files.sys_users: ~2 rows (aproximadamente)
+DELETE FROM `sys_users`;
 /*!40000 ALTER TABLE `sys_users` DISABLE KEYS */;
 INSERT INTO `sys_users` (`id_users`, `name`, `cc`, `id_dependencia`, `user`, `password`, `rol`, `email`, `status`, `last_entry`, `last_date`, `avatar`) VALUES
 	(1, 'ADMINISTRADOR', '1043003865', '1', 'admin', '70873e8580c9900986939611618d7b1e', 1, 'jose.narvaez@sonovista.co', 1, '2021-06-03 15:48:53', '2021-05-25', 'avatar.png'),
