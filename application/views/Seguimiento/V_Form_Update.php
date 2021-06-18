@@ -7,9 +7,9 @@
             <h1 class="page-title"><span class="subpage-title">Registro De</span> Seguimiento</h1>
             <div class="ml-auto">
                 <div class="input-group">
-                    <a href="#" onclick="saveData()" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Guardar">
+                    <a href="<?=base_url()?>Seguimientos/New" class="btn btn-info btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Agregar Nuevo Seguimiento">
                         <span>
-                            <i class="fe fe-save"></i>
+                            <i class="fe fe-plus"></i>
                         </span>
                     </a>
                 </div>

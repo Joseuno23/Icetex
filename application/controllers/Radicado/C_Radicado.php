@@ -49,16 +49,16 @@ class C_Radicado extends Controller {
     
 
             $btn = '<div class="btn-group btnI' . $v->id_radicado . '" >
-                        <button  type="button" class="btn1-' . $v->id_radicado . ' btn btn-' . $v->color . ' btn-xs btn-left">' . $v->estado . '</button>
-                            <button type="button" class="btn2-' . $v->id_radicado . ' btn btn-' . $v->color . ' btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <button style="min-width:86px"  type="button" class="btn1-' . $v->id_radicado . ' btn btn-' . $v->color . ' btn-sm btn-left">' . $v->estado . '</button>
+                            <button type="button" class="btn2-' . $v->id_radicado . ' btn btn-' . $v->color . ' btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>';
 
             $btn .= '<ul class="dropdown-menu u-' . $v->id_radicado . '" role="menu">';
             $btn .= '<li onclick="previewRadicado(\''.$idEncrip.'\',\'' . $v->iv_key .'\')"><a href="#"><i class="fa fa-fw fa-edit"></i> Preview</a></li>';
-            $btn .= (isset($BtnEditRadicado) && !in_array($v->id_estado, array('4'))) ? '<li onclick="EditRadicado(\''.$idEncrip.'\',\'' . $v->iv_key .'\')"><a href="#"><i class="fa fa-fw fa-edit"></i> Editar</a></li>' : '';
-            $btn .= (isset($BtnAnuleRadicado) && !in_array($v->id_estado, array('4'))) ? '<li onclick="Anule(' . $v->id_radicado . ',' . $v->id_estado . ',\'' . $v->codigo . '\')"><a style="color: red;" href="#"><i class="fa fa-fw fa-trash-o"></i> Anular</a></li>' : '';
+            $btn .= (isset($BtnEditRadicado) && !in_array($v->id_estado, array('4','5'))) ? '<li onclick="EditRadicado(\''.$idEncrip.'\',\'' . $v->iv_key .'\')"><a href="#"><i class="fa fa-fw fa-edit"></i> Editar</a></li>' : '';
+            $btn .= (isset($BtnAnuleRadicado) && !in_array($v->id_estado, array('4','5'))) ? '<li onclick="Anule(' . $v->id_radicado . ',' . $v->id_estado . ',\'' . $v->codigo . '\')"><a style="color: red;" href="#"><i class="fa fa-fw fa-trash-o"></i> Anular</a></li>' : '';
             $btn .= '</ul></div>';
             $fecha = strtotime($v->fecha);
             $fecha = date('Y-m-d', $fecha);
@@ -82,8 +82,6 @@ class C_Radicado extends Controller {
         
         $info['dependencias'] = $this->M_Radicado->select('sys_dependencia', 'description');
         $info['canales'] = $this->M_Radicado->select('sys_canal', 'description');
-        $info['tipos_radicado'] = $this->M_Radicado->select('sys_tipo_radicado', 'description');
-        $info['tipos_documento'] = $this->M_Radicado->select('sys_tipo_documento', 'description');
         $info['series'] = $this->M_Radicado->select('sys_serie', 'descripcion');
         $info['subseries'] = $this->M_Radicado->select('sys_sub_serie', 'descripcion');
         
@@ -251,6 +249,93 @@ class C_Radicado extends Controller {
         $result = $this->M_Radicado->selecTable('sys_sub_serie', 'id_serie', $this->input->post('id_serie'));
         
         echo json_encode(array('subseries'=>$result));
+    }
+    
+    function Reporte(){
+        $array['menus'] = $this->M_Main->ListMenu(); 
+        $Header['menu'] = $this->load->view('Template/Menu/V_Menu',$array,true);
+        $Header['array_css'] = array(RANGO_PICKER_CSS,ALERTIFY_CSS,ALERTIFY_CSS2);
+        
+        $this->load->view('Template/V_Header',$Header);
+        
+        $info['dependencias'] = $this->M_Radicado->select('sys_dependencia', 'description');
+        $info['canales'] = $this->M_Radicado->select('sys_canal', 'description');
+        $info['series'] = $this->M_Radicado->select('sys_serie', 'descripcion');
+        $info['subseries'] = $this->M_Radicado->select('sys_sub_serie', 'descripcion');
+        $this->load->view('Radicado/V_Reporte', $info);
+        
+        $Footer['array_js'] = array(MOMENT_JS,RANGO_PICKER_JS,ALERTIFY_JS);
+        $this->load->view('Template/V_Footer',$Footer);
+    }
+        
+    function Radicador($archivo = 0) {
+        require_once(dirname(__FILE__) . '/../../includes/phpexcel/Classes/PHPExcel.php');
+        require_once dirname(__FILE__) . '/../../includes/phpexcel/Classes/PHPExcel/IOFactory.php';
+        include dirname(__FILE__) . '/../../includes/phpexcel/Classes/PHPExcel/Writer/Excel2007.php';
+        
+        
+        if ($archivo) {
+            $archivo .= '.xls';
+
+            header('Content-Type: application/vnd.ms-excel');
+            header("Content-Disposition: attachment; filename=$archivo");
+            header("Expires: 0");
+            header('Content-Transfer-Encoding: binary');
+            header("Cache-Control: private", false);
+
+
+            $ruta = dirname(__FILE__) . "/../../includes/phpexcel/temp/" . $archivo;
+            $archivo = file_get_contents($ruta);
+            echo $archivo;
+
+            exit;
+        } else {
+            if (file_exists(dirname(__FILE__) . "/../../includes/phpexcel/temp/Radicador.xls")) {
+                unlink(dirname(__FILE__) . "/../../includes/phpexcel/temp/Radicador.xls");
+            }
+        }
+        
+        $archivo = dirname(__FILE__) . "/../../includes/phpexcel/temp/Radicador.xls";
+
+        copy(dirname(__FILE__) . "/../../includes/phpexcel/plantillas/Radicador.xlsx", $archivo);
+
+        try {
+            $objPHPExcel = PHPExcel_IOFactory::load($archivo);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo(PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
+        
+        
+        $A = $objPHPExcel->getActiveSheet(0);
+
+        $y = 2;
+        
+        $result = $this->M_Radicado->getRadicadosAll();
+        
+        foreach ($result as $v) {
+            $A->setCellValue("A$y", $v->codigo.'.'.$v->id_radicado);
+            $A->setCellValue("B$y", $v->fecha);
+            $A->setCellValue("C$y", $v->name);
+            $A->setCellValue("D$y", $v->dependencia);
+            $A->setCellValue("E$y", $v->serie);
+            $A->setCellValue("F$y", $v->subserie);
+            $A->setCellValue("G$y", $v->canal);
+            $A->setCellValue("H$y", $v->estado);
+            $A->setCellValue("I$y", $v->asunto);
+            $A->setCellValue("J$y", $v->descripcion);
+            $A->setCellValue("K$y", $v->nombre_solicitante);
+            $A->setCellValue("L$y", $v->documento_solicitante);
+            $A->setCellValue("M$y", $v->telefono_solicitante);
+            
+            $y++;
+        }
+        
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save($archivo, __FILE__);
+        $returnArray = Array('result' => "ok", 'archivo' => 'Radicador');
+        $myjson = json_encode($returnArray);
+        echo $myjson;
+        
     }
     
 }

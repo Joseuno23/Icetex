@@ -137,3 +137,10 @@ defined('ICHECK_JS')      OR define('ICHECK_JS','plugins/iCheck/icheck.min.js');
 defined('WIZARD_JS')    OR define('WIZARD_JS', 'plugins/formwizard/jquery.smartWizard.js');
 defined('WIZARD_CSS')    OR define('WIZARD_CSS', 'plugins/formwizard/smart_wizard.css');
 defined('WIZARD_CSS_B')    OR define('WIZARD_CSS_B', 'plugins/formwizard/smart_wizard_theme_dots.css');
+
+
+defined('MOMENT_JS')    OR define('MOMENT_JS', 'plugins/moment/moment.min.js');
+
+defined('RANGO_PICKER_CSS')    OR define('RANGO_PICKER_CSS', 'plugins/bootstrap-daterangepicker/daterangepicker.css');
+defined('RANGO_PICKER_JS')    OR define('RANGO_PICKER_JS', 'plugins/bootstrap-daterangepicker/daterangepicker.js');
+

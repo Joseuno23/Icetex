@@ -6,6 +6,10 @@ class M_Radicado extends VS_Model {
 
     public function __construct() {
         parent::__construct();
+        
+        foreach ($_POST as $clave => $valor):
+            $this->$clave = $valor;
+        endforeach;
     }
 
     function GetPptoCompleteInfo($ini = false, $fin = false, $radicado, $fecha_ini, $fecha_fin) {
@@ -93,5 +97,32 @@ class M_Radicado extends VS_Model {
         return $result->result();
     }
     
+    function getRadicadosAll(){
+        
+        if($this->input->post('id_dependencia') != "all")
+            $this->db->where("r.id_dependencia", $this->input->post('id_dependencia'));
+        
+        if($this->input->post('id_serie') != "all")
+            $this->db->where("r.id_serie", $this->input->post('id_serie'));
+        
+        if($this->input->post('id_subserie') != "all")
+            $this->db->where("r.id_subserie", $this->input->post('id_subserie'));
+        
+        $this->db->where("r.fecha between '$this->fecha_ini' AND '$this->fecha_fin' ");
+        
+        
+        $res = $this->db->select('r.*,u.name,e.description as estado,e.color,td.descripcion as serie,tr.descripcion as subserie,d.description as dependencia,c.description as canal')
+                ->from('sys_radicado r')
+                ->join('sys_users u','r.id_usuario = u.id_users')
+                ->join('sys_status e', 'r.id_estado = e.id_status')
+                ->join('sys_serie td ', 'r.id_serie = td.id_serie')
+                ->join('sys_sub_serie tr ', 'r.id_subserie = tr.id_sub_serie')
+                ->join('sys_dependencia d', 'r.id_dependencia = d.id_dependencia')
+                ->join('sys_canal c', 'r.id_canal = c.id_canal')
+                ->get();
+        
+        return $res->result();
+        
+    }
     
 }

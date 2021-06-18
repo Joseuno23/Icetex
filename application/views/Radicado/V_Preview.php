@@ -19,7 +19,7 @@
                         </span>
                     </a>
                     <?php endif; ?>
-                    <?php if(isset($BtnEditRadicado) && !in_array($info->id_estado, array('4'))): ?>
+                    <?php if(isset($BtnEditRadicado) && !in_array($info->id_estado, array('4','5'))): ?>
                     <a href="#" onclick="EditRadicado()" class="btn btn-success btn-icon mr-2" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Editar">
                         <span>
                             <i class="fe fe-edit"></i>
@@ -173,7 +173,7 @@
                                 <span class="fe fe-more-horizontal fs-20"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1005px, 41px, 0px);">
-                                <li><a href="#"><i class="fe fe-plus mr-2"></i>Agregar Seguimiento</a></li>
+                                <li><a href="<?=base_url()?>Seguimientos/New"><i class="fe fe-plus mr-2"></i>Agregar Seguimiento</a></li>
                             </ul>
                         </div>
                     </div>

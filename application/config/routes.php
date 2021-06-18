@@ -79,6 +79,7 @@ $route['Radicados'] = 'Radicado/C_Radicado/GetList';
 $route['Radicados/New'] = 'Radicado/C_Radicado/NewP';
 $route['Radicados/Edit/(:any)/(:any)'] = 'Radicado/C_Radicado/Edit/$1/$2';
 $route['Radicados/Preview/(:any)/(:any)'] = 'Radicado/C_Radicado/Preview/$1/$2';
+$route['Reporte'] = 'Radicado/C_Radicado/Reporte';
 
 
 //seguimiento

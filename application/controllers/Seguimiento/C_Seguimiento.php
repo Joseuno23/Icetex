@@ -71,7 +71,10 @@ class C_Seguimiento extends Controller {
 
                 $result = $this->M_Seguimiento->SaveData('sys_seguimiento', $data);
 
-              
+                //si el seguimiento es de cierre, cerrar el radicador
+                if($this->input->post('id_tipo_seguimiento') == 4){
+                    $this->M_Seguimiento->updateData('sys_radicado', 'id_radicado', $row->id_radicado, array('id_estado'=>4));
+                }
                 
                 $res = array('res'=>'OK', 'id'=>base64_encode($this->crip($result, $iv)), 'token'=>$iv);
             }
