@@ -52,19 +52,26 @@
                                                 <img src="<?= base_url() ?>assets/images/brand/logo.png" class="header-brand-img main-logo" alt="IndoUi logo">
                                                 <img src="<?= base_url() ?>assets/images/brand/logo-light.png" class="header-brand-img dark-main-logo" alt="IndoUi logo">
                                             </div>
-                                            <h3>Recuperar Contraseña</h3>
+
+
+                                            <h3>Nueva Contraseña</h3>
 
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-addon bg-white"><i class="fa fa-user"></i></span>
-                                                <input type="text" class="form-control input-log" placeholder="Email" id="email" name="email" value="">
-                                                <span id="emailOK" style="font-size: 15px;color: red;"  ></span>
+                                                <input type="text" class="form-control input-log" placeholder="Nueva Contraseña" id="psw" name="psw" value="">
+                                                <span id="passwordOK" style="font-size: 15px;color: red;"  ></span>
                                             </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-addon bg-white"><i class="fa fa-user"></i></span>
+                                                <input type="text" class="form-control input-log" placeholder="Confirmar" id="psw_confirmation" name="psw_confirmation" value="">
+                                            </div>                                            
 
                                             <div class="row">
                                                 <div class="col-12">
 
-                                                    <button type="button" class="btn btn-primary create" onclick="RecoverPass()">Recuperar Contraseña</button>
+                                                    <button type="button" class="btn btn-primary create" onclick="ChangePassword()">Guardar Contraseña</button>
                                                 </div>
                                             </div>
 
@@ -98,74 +105,21 @@
 
     <script>
 
-        function validaCorreo() {
-
-            var correo = document.getElementById('email');
-            var retorno = false;
-            valido = document.getElementById('emailOK');
-
-            valido.innerText = "";
-
-            emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-
-
-            if (emailRegex.test(correo.value)) {
-                var data = new FormData();
-                data.append('email', correo.value);
-
-                $.ajax({
-                    url: "<?= base_url() ?>C_Main/ValidaForgotEmail",
-                    type: 'POST',
-                    data: data,
-                    async: false,
-                    success: function (data) {
-                        console.log(data);
-                        var obj = jQuery.parseJSON(data);                        
-                        if (obj.res == "OK") {
-                            $(".form-email").addClass("has-error").removeClass("has-success");
-                            valido.innerText = "No se encuentra correo en la base de datos";
-                            retorno=false;    
-                        } else {
-                            $(".form-email").addClass("has-success").removeClass("has-error");
-                            retorno=true;    
-                        }
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                }).fail(function (error) {
-                    swal({title: 'Error Reportar al administrador del sistema !', text: error.responseText, type: 'error'});
-
-                });
-
-            } else {
-                valido.innerText = "Incorrecto";
-                $(".form-email").addClass("has-error").removeClass("has-success");
-            }
-
-            return retorno;
-
+        function validaPassword(){
 
         }
-        
 
-        function RecoverPass() {
+        function ChangePassword() {
 
-            if(validaCorreo()==false){
+            if(validaPassword()==false){
                 return false;
             }
 
-
-            if ($(".form-email").hasClass("has-error")) {
-                alertify.error("Verificar el correo de recuperación")
-                $("#email").focus();
-                return false
-            }
-
             var formData = new FormData($('#form')[0]);
+            formData.append("id", "<?= base_url() ?>");
 
             $.ajax({
-                url: "<?= base_url() ?>C_Main/RecoverPass",
+                url: "<?= base_url() ?>C_Main/ChangePassword",
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -174,10 +128,10 @@
                     if (obj.res == "OK") {
                         swal({
                                 title: 'Operacion Exitosa!',
-                                text: "Se envió un correo con la información de recuperación.",
+                                text: "Se realizó el cambio de la contraseña, proceda a ingresar con su nuevo usuario.",
                                 type: 'success'
                             }).then((result) => {
-                                document.location.href="../index.php";
+                                document.location.href="<?= base_url() ?>";
                             });
                     } else {
                             swal({title: 'Error!', text: obj.res, type: 'error'});

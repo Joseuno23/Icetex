@@ -32,7 +32,7 @@ class M_Radicado extends VS_Model {
         if ($fecha_ini != "all")
             $this->db->where("r.fecha between '$fecha_ini' AND DATE_ADD('$fecha_fin', INTERVAL 1 DAY) ");
         
-        $result = $this->db->select('r.*,e.description as estado,e.color,td.descripcion as serie,tr.descripcion as subserie,d.description as dependencia,c.description as canal,u.name as usuario')
+        $result = $this->db->select('r.*,e.description as estado,e.color,td.descripcion as serie,tr.descripcion as subserie,d.description as dependencia,c.description as canal,u.name as usuario,DATEDIFF(r.fecha,CURRENT_DATE()) as dias,tr.dias_respuesta')
                 ->from('sys_radicado r')
                 ->join('sys_users u', 'r.id_usuario = u.id_users')
                 ->join('sys_status e', 'r.id_estado = e.id_status')

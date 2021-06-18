@@ -64,7 +64,7 @@
                                                     <button type="button" class="btn btn-primary btn-block btn-log">Login</button>
                                                 </div>
                                                 <div class="col-12">
-                                                    <a href="forgot-password.html" class="btn btn-link box-shadow-0 px-0">Recuperar password?</a>
+                                                    <a href="Password/Forgot" class="btn btn-link box-shadow-0 px-0">Recuperar password?</a>
                                                 </div>
                                             </div>
                                             <div class="mt-6 btn-list">
@@ -141,7 +141,8 @@
                         swal({title: 'Error!', text: data.res, type: 'error'});
                     }
                 }, 'json').fail(function (error) {
-                    swal({title: 'La url solicitada no existe para ingresar haz click en el enlace <a href="<?= URL_PROJETC ?>"><?=TITLE_?></a>!', text: error.responseText, type: 'error'});
+                    swal({title: 'La URL solicitada no existe para ingresar haz click en el enlace <a href="<?= URL_PROJETC ?>"><?=TITLE_?></a>!', text: error.responseText, type: 'error'});
+                    console.log(error);
                 });
             }
         }

@@ -149,5 +149,45 @@ class M_Main extends VS_Model {
         
         return $result;
     }
+    
+    function RecoverPass() {
+
+        $result = $this->db->select('id_users')
+                ->from('sys_users')
+                ->where("email", $this->input->post("email"))  
+                ->get();
+
+        $row = $result->row_array();
+
+        $token=md5(date("Y-m-d H:i:s").$row['id_users']);   
+
+        $data = array(
+            "id_users" => $row['id_users'],
+            "token"=> $token
+        );
+
+        $result = $this->db->insert("sys_users_recover", $data);
+
+        if ($result) {
+            return array("result"=>true, "message"=>"OK", "token"=>$token, "email"=>$this->input->post("email"));
+        } else {
+            return array("result"=>false, "message"=>"ERROR", "token"=>"", "email"=>"");
+        }
+    }
+
+    function ValidateRecoverPass($token) {
+
+        $result = $this->db->select('id_users')
+                ->from('sys_users_recover')
+                ->where("token", $token)  
+                ->get();
+
+        if ($result->num_rows() > 0) {
+            return "OK";
+        } else {
+            return "NO";
+        }
+
+    }
 
 }

@@ -84,6 +84,14 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="descripcion">Días Respuesta</label>
+                            <input type="number" name="dias_respuesta" class="form-control" id="dias_respuesta"  />
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -108,6 +116,8 @@
         $("#status").val($("#status" + id_sub_serie).attr("val"));
         $("#codigo").val($("#codigo" + id_sub_serie).attr("val"));
         $("#id_serie").val($("#id_serie" + id_sub_serie).attr("val"));
+        $("#dias_respuesta").val($("#dias_respuesta" + id_sub_serie).attr("val"));
+
         $(".update").show();
         $(".create").hide();
         $("#menu_form").modal("show");

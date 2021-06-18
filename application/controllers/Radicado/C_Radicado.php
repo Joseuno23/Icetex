@@ -62,7 +62,20 @@ class C_Radicado extends Controller {
             $btn .= '</ul></div>';
             $fecha = strtotime($v->fecha);
             $fecha = date('Y-m-d', $fecha);
-            $array[] = array($v->codigo.'.'.$v->id_radicado, $fecha, $v->dependencia, $v->serie, $v->subserie, $v->canal, explode(' ', $v->usuario)[0], $btn);
+            
+            if($v->id_estado == 5){
+                $icon = '<img style="width:30px;margin-left:5px" data-toggle="tooltip" data-placement="top" title="Radicado Cerrado" src="' . base_url() . 'assets/images/icons/verde.png" />';
+            }else if($v->id_estado == 4){
+                $icon = '<img style="width:30px;margin-left:5px" data-toggle="tooltip" data-placement="top" title="Radicado Anulado" src="' . base_url() . 'assets/images/icons/invalid.png" />';
+            }else{
+                if ($v->dias <= ($v->dias_respuesta - ($v->dias_respuesta * 2))) {
+                    $icon = '<img style="width:30px;margin-left:5px" data-toggle="tooltip" data-placement="top" title="" src="' . base_url() . 'assets/images/icons/rojo.png" />';
+                }else{
+                    $icon = '<img style="width:30px;margin-left:5px" data-toggle="tooltip" data-placement="top" title="" src="' . base_url() . 'assets/images/icons/amarillo.png" />';
+                }
+            }
+            
+            $array[] = array($icon, $v->codigo.'.'.$v->id_radicado.'<br />'.$fecha, $v->dependencia, $v->serie, $v->subserie, $v->canal, explode(' ', $v->usuario)[0], $btn);
         }
 
         echo json_encode(array('draw' => $this->input->get("draw"), 'recordsFiltered' => $rows2['num'], 'datos' => $array));

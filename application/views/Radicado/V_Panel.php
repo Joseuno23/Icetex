@@ -38,8 +38,9 @@
                             <table id="table_radicados" class="table table-bordered table-striped table-condensed ">
                                 <thead>
                                     <tr>
+                                        <th style="text-align:center"></th>
                                         <th style="text-align:center">N°</th>
-                                        <th style="text-align:center">Fecha</th>
+                                        <!--<th style="text-align:center">Fecha</th>-->
                                         <th style="text-align:center">Dependencia</th>
                                         <th style="text-align:center">Serie</th>
                                         <th style="text-align:center">SubSerie</th>

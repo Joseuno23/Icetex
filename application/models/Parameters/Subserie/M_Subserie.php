@@ -18,7 +18,7 @@ class M_Subserie extends VS_Model {
             $this->db->where("id_sub_serie", $id);
         }
 
-        $result = $this->db->select("r.id_sub_serie, r.codigo,r.descripcion as subserie,d.descripcion as serie,r.id_serie, r.status, s.* ")
+        $result = $this->db->select("r.id_sub_serie, r.codigo,r.descripcion as subserie,d.descripcion as serie,r.id_serie, r.status, r.dias_respuesta, s.* ")
                 ->from("sys_sub_serie r")
                 ->join("sys_status s", "r.status = s.id_status")
                 ->join("sys_serie d", "r.id_serie = d.id_serie")
@@ -34,7 +34,8 @@ class M_Subserie extends VS_Model {
             "descripcion" => strtoupper($this->descripcion), 
             "id_serie" => $this->id_serie, 
             "status" => $this->status, 
-            "codigo" => $this->codigo);
+            "codigo" => $this->codigo,
+            "dias_respuesta" => $this->dias_respuesta);
         $this->db->where("id_sub_serie", $this->id_sub_serie);
         $result = $this->db->update("sys_sub_serie", $data);
 
@@ -50,7 +51,8 @@ class M_Subserie extends VS_Model {
             "descripcion" => strtoupper($this->descripcion),
             "id_serie" => $this->id_serie, 
             "codigo" => $this->codigo, 
-            "status" => $this->status);
+            "status" => $this->status,
+            "dias_respuesta" => $this->dias_respuesta);
         $result = $this->db->insert("sys_sub_serie", $data);
 
         if ($result) {

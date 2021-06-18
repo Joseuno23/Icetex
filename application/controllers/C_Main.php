@@ -82,5 +82,45 @@ class C_Main extends Controller {
         $this->session->sess_destroy();
         header('Location: ' . base_url());
     }
+    
+    function ForgotPass() {
+        $this->load->view('Login/V_Forgot');
+    }
+
+    function ValidaForgotEmail() {
+        $this->load->model("Parameters/User/M_User");
+        $result = $this->M_User->ValidaCorreo();
+        echo json_encode(array("res" => $result));
+    }
+
+    function RecoverPass(){
+        $this->load->model("Parameters/User/M_User");
+
+        //Insertar Registro de Recuperación
+        $result = $this->M_Main->RecoverPass();
+
+        if($result["result"]){
+            
+            //Enviar Correo de Recuperación
+            $this->load->library('Emails');
+            $this->emails->recover_account($result["token"], $result["email"]);
+
+        }
+
+        echo json_encode(array("res" => $result["message"]));
+
+    }  
+    
+    public function NewPassword($token) {
+
+        $_SESSION["token"]=$token;           
+
+        if($this->M_Main->ValidateRecoverPass($token)=="OK"){
+            $this->load->view('Login/V_New_Password');
+        }else{
+            echo "Acceso no autorizado";
+        }
+ 
+    }
 
 }
