@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `sys_dependencia` (
   `id_dependencia` int(11) NOT NULL AUTO_INCREMENT,
   `description` text NOT NULL,
   `codigo` varchar(50) DEFAULT NULL,
+  `emails` mediumtext,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id_dependencia`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
@@ -118,11 +119,11 @@ CREATE TABLE IF NOT EXISTS `sys_dependencia` (
 -- Volcando datos para la tabla bd_files.sys_dependencia: 4 rows
 DELETE FROM `sys_dependencia`;
 /*!40000 ALTER TABLE `sys_dependencia` DISABLE KEYS */;
-INSERT INTO `sys_dependencia` (`id_dependencia`, `description`, `codigo`, `status`) VALUES
-	(1, 'SECRETARIA GENERAL Y DE GOBIERNO', '100', 1),
-	(2, 'DESPACHO DE LA ALCALDIA', '10', 1),
-	(3, 'ASESOR CONTROL INTERNO', '50', 1),
-	(4, 'COMISARIA DE FAMILIA', '110', 1);
+INSERT INTO `sys_dependencia` (`id_dependencia`, `description`, `codigo`, `emails`, `status`) VALUES
+	(1, 'SECRETARIA GENERAL Y DE GOBIERNO', '100', NULL, 1),
+	(2, 'DESPACHO DE LA ALCALDIA', '10', 'jose.narvaez@sonovista.co;josenarvaezg1@gmail.com', 1),
+	(3, 'ASESOR CONTROL INTERNO', '50', 'jose.narvaez@sonovista.co;josenarvaezg1@gmail.com', 1),
+	(4, 'COMISARIA DE FAMILIA', '110', 'micorreo@hotmail.com', 1);
 /*!40000 ALTER TABLE `sys_dependencia` ENABLE KEYS */;
 
 -- Volcando estructura para tabla bd_files.sys_icon

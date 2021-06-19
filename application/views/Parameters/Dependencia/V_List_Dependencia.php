@@ -40,7 +40,7 @@
 </div>
 
 <div class="modal fade" id="menu_form" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="example-Modal3">DATOS DEPENDENCIAS</h5>
@@ -50,27 +50,35 @@
             </div>
             <div class="modal-body">
                 <form role="form" id="form" method="POST" enctype="multipart/form-data">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="descripcion">Descripcion</label>
-                            <input type="text" name="descripcion" class="form-control required" id="descripcion"  />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripcion</label>
+                                <input type="text" name="descripcion" class="form-control required" id="descripcion"  />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="descripcion">Código</label>
-                            <input type="text" name="codigo" class="form-control required" id="codigo"  />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="descripcion">Código</label>
+                                <input type="text" name="codigo" class="form-control required" id="codigo"  />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group register">
-                            <label for="nombre">Status</label>
-                            <select name="status" class="form-control required" id="status">
-                                <option value="">. . .</option>
-                                <?php foreach ($status as $e) : ?>
-                                    <option value="<?= $e->id_status ?>"><?= $e->description ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-group register">
+                                <label for="nombre">Status</label>
+                                <select name="status" class="form-control required" id="status">
+                                    <option value="">. . .</option>
+                                    <?php foreach ($status as $e) : ?>
+                                        <option value="<?= $e->id_status ?>"><?= $e->description ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="descripcion">Emails</label>
+                                <textarea rows="3" name="emails" class="form-control required" id="emails" ></textarea>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -96,6 +104,7 @@
         $("#descripcion").val($("#desc" + id_dependencia).text());
         $("#status").val($("#status" + id_dependencia).attr("val"));
         $("#codigo").val($("#codigo" + id_dependencia).attr("val"));
+        $("#emails").val($("#emails" + id_dependencia).attr("val"));
         $(".update").show();
         $(".create").hide();
         $("#menu_form").modal("show");

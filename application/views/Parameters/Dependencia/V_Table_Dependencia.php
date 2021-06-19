@@ -3,6 +3,7 @@
         <tr>
             <th>Description</th>
             <th>Codigo</th>
+            <th>Emails</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -12,6 +13,7 @@
         <tr id="rol<?=$v->id_dependencia?>">
             <td id="desc<?=$v->id_dependencia ?>"><?=$v->dependencia?></td>
             <td style="text-align: center;" val="<?=$v->codigo?>" id="codigo<?=$v->id_dependencia ?>"><?=$v->codigo?></td>
+            <td style="text-align: center;" val="<?=$v->emails?>" id="emails<?=$v->id_dependencia ?>"><?= str_replace(';', ' ', $v->emails) ?></td>
             <td style="text-align: center;" val="<?=$v->status?>" id="status<?=$v->id_dependencia ?>"><?=$v->description?></td>
             <td style="text-align: center;">
                 <button type="button"  class="btn btn-info btn-xs btn-tabla" onclick="Update(<?=$v->id_dependencia?>)"><i class="fa fa-search"></i></button>
